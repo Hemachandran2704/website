@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Magnus Dynamic CMS</title>
+  <link rel="stylesheet" href="/frontend/css/style.css">
+  <link rel="stylesheet" href="/frontend/css/dashboard.css">
+  <link rel="stylesheet" href="/frontend/css/tables.css">
+  <link rel="stylesheet" href="/frontend/css/forms.css">
+</head>
+<body>
+  <div class="dashboard-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-brand-icon">M</div>
+        <div class="sidebar-brand-name">Magnus CMS</div>
+        <span class="sidebar-brand-badge">Admin</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <span class="sidebar-section-title">Core Management</span>
+        <a href="#overview" class="nav-link admin-tab-link active" data-view="overview"><span class="nav-icon">🏠</span> Dashboard</a>
+        <a href="#users" class="nav-link admin-tab-link" data-view="users"><span class="nav-icon">👥</span> Users</a>
+        <a href="#roles" class="nav-link admin-tab-link" data-view="roles"><span class="nav-icon">🛡️</span> Roles & Permissions</a>
+        <a href="#activities" class="nav-link admin-tab-link" data-view="activities"><span class="nav-icon">📜</span> Activities & Audit</a>
+        <a href="#documents" class="nav-link admin-tab-link" data-view="documents"><span class="nav-icon">📄</span> Documents</a>
+        <a href="#notifications" class="nav-link admin-tab-link" data-view="notifications"><span class="nav-icon">🔔</span> Notifications</a>
+        <a href="#tickets" class="nav-link admin-tab-link" data-view="tickets"><span class="nav-icon">🎫</span> Support Tickets</a>
+        <a href="#reports" class="nav-link admin-tab-link" data-view="reports"><span class="nav-icon">📊</span> Reports & Analytics</a>
+        <a href="#settings" class="nav-link admin-tab-link" data-view="settings"><span class="nav-icon">⚙️</span> System Settings</a>
+        <a href="#security" class="nav-link admin-tab-link" data-view="security"><span class="nav-icon">🔒</span> Security</a>
+
+        <span class="sidebar-section-title">Dynamic Modules</span>
+        <div class="nav-group" id="nav-more-group">
+          <div class="nav-link nav-group-header">
+            <span style="display:flex; align-items:center; gap:12px;"><span class="nav-icon">📁</span> More Modules</span>
+            <span class="nav-chevron">▶</span>
+          </div>
+          <div class="nav-submenu">
+            <a href="/frontend/pages/multiple-tabs.html" class="nav-link">📑 Multiple Tabs</a>
+            <a href="/frontend/pages/menu.html" class="nav-link">🗂️ Menu</a>
+            <a href="/frontend/pages/autocomplete.html" class="nav-link">🔍 Autocomplete</a>
+            <a href="/frontend/pages/collapsible.html" class="nav-link">📂 Collapsible Content</a>
+            <a href="/frontend/pages/images.html" class="nav-link">🖼️ Images</a>
+            <a href="/frontend/pages/slider.html" class="nav-link">🎞️ Slider</a>
+            <a href="/frontend/pages/tooltips.html" class="nav-link">💬 Tooltips</a>
+            <a href="/frontend/pages/popups.html" class="nav-link">🪟 Popups</a>
+            <a href="/frontend/pages/links.html" class="nav-link">🔗 Links</a>
+            <a href="/frontend/pages/css-properties.html" class="nav-link">🎨 CSS Properties</a>
+            <a href="/frontend/pages/iframes.html" class="nav-link">🖥️ iFrames</a>
+          </div>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile-badge">
+          <div class="user-avatar" id="sidebar-user-avatar">A</div>
+          <div class="user-info">
+            <span class="user-name" id="sidebar-user-name">Administrator</span>
+            <span class="user-role-label" id="sidebar-user-role">ADMIN</span>
+          </div>
+        </div>
+        <button class="btn-sidebar-logout" id="sidebar-logout-btn">
+          <span>🚪</span> Sign Out
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <header class="topbar">
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <button class="btn-mobile-toggle" id="mobile-menu-toggle">☰</button>
+          <div class="page-title-box">
+            <h1 class="page-title" id="admin-page-title">Executive Dashboard</h1>
+            <div class="breadcrumbs">
+              <a href="/dashboard">Admin</a> <span>/</span> <span id="admin-breadcrumb-curr">Overview</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="topbar-actions">
+          <a href="/portal" class="btn btn-outline btn-sm">🌐 Public Portal</a>
+        </div>
+      </header>
+
+      <div class="content-body">
+        
+        <!-- 1. VIEW: OVERVIEW -->
+        <div id="view-overview" class="admin-view-panel">
+          <section style="margin-bottom: 24px;">
+            <h2 style="font-size: 1.1rem; margin-bottom: 16px;">System Content & Telemetry</h2>
+            <div class="stats-grid" id="stats-grid-container">
+              <div class="loading-container" style="grid-column: 1 / -1;">
+                <span class="spinner"></span>
+                <span>Loading metrics from database...</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="dashboard-section">
+            <div class="dashboard-section-header">
+              <div>
+                <h2 class="dashboard-section-title">Recent Audit Log Activities</h2>
+                <p style="font-size: 0.85rem; margin-top: 2px;">Real-time audit trail of all CREATE, UPDATE, DELETE, and AUTH events</p>
+              </div>
+            </div>
+            <div class="audit-feed" id="recent-activities-feed">
+              <div class="loading-container">
+                <span class="spinner"></span>
+                <span>Retrieving audit records...</span>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- 2. VIEW: USERS -->
+        <div id="view-users" class="admin-view-panel" style="display: none;">
+          <div class="table-card">
+            <div class="table-header">
+              <div>
+                <h2 class="table-title">User Account Management</h2>
+                <p style="font-size: 0.85rem; color: var(--text-muted);" id="users-count">Manage platform users and role authorizations</p>
+              </div>
+              <button class="btn btn-primary" onclick="openAddUserModal()">+ Add New User</button>
+            </div>
+
+            <div class="table-toolbar">
+              <div class="search-input-wrapper" style="max-width: 320px; width: 100%;">
+                <input type="text" id="user-search" class="form-control" placeholder="Search by name or email...">
+              </div>
+              <div style="display: flex; gap: 10px;">
+                <select id="user-role-filter" class="form-control" style="width: 140px;">
+                  <option value="">All Roles</option>
+                  <option value="user">User</option>
+                  <option value="admin">Admin</option>
+                </select>
+                <select id="user-status-filter" class="form-control" style="width: 140px;">
+                  <option value="">All Statuses</option>
+                  <option value="active">Active</option>
+                  <option value="inactive">Inactive</option>
+                  <option value="blocked">Blocked</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th style="width: 60px;">ID</th>
+                    <th>User & Email</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                    <th>Registered</th>
+                    <th style="width: 180px;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="users-table-body">
+                  <tr><td colspan="6" class="loading-container"><span class="spinner"></span><span>Loading users...</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. VIEW: ROLES & PERMISSIONS -->
+        <div id="view-roles" class="admin-view-panel" style="display: none;">
+          <div class="table-card" style="margin-bottom: 24px;">
+            <div class="table-header">
+              <h2 class="table-title">System Roles Definition</h2>
+            </div>
+            <div style="padding: 20px;">
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div style="padding: 20px; border: 1px solid var(--border-color); border-radius: 8px; background: #ffffff;">
+                  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 8px;">
+                    <h3 style="font-size: 1.1rem; color: var(--primary);">🛡️ Administrator (ADMIN)</h3>
+                    <span class="badge badge-primary">System Role</span>
+                  </div>
+                  <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">
+                    Full administrative privileges across all dynamic modules, user accounts, security policies, system configuration, audit logs, and document approvals.
+                  </p>
+                  <ul style="font-size: 0.825rem; color: var(--text-main); padding-left: 18px; line-height: 1.6;">
+                    <li>User management (Create, Edit, Deactivate, Block)</li>
+                    <li>Full CRUD on 17 Dynamic CMS modules</li>
+                    <li>Support ticket escalation and resolution</li>
+                    <li>Document review, approval, and rejection</li>
+                    <li>System settings and analytics inspection</li>
+                  </ul>
+                </div>
+
+                <div style="padding: 20px; border: 1px solid var(--border-color); border-radius: 8px; background: #ffffff;">
+                  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 8px;">
+                    <h3 style="font-size: 1.1rem; color: #10b981;">👤 Standard User (USER)</h3>
+                    <span class="badge badge-neutral">Default Role</span>
+                  </div>
+                  <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">
+                    Standard authenticated account with access to personal dashboard, own documents, personal activity history, calendar schedules, and support ticketing.
+                  </p>
+                  <ul style="font-size: 0.825rem; color: var(--text-main); padding-left: 18px; line-height: 1.6;">
+                    <li>Access personal user dashboard & overview</li>
+                    <li>Create & track own support tickets</li>
+                    <li>Upload & download own documents</li>
+                    <li>Manage personal profile, schedules & preferences</li>
+                    <li>Strictly prevented from accessing admin controls</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="table-card">
+            <div class="table-header">
+              <h2 class="table-title">Role-Based Access Control (RBAC) Matrix</h2>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Feature / Endpoint Domain</th>
+                    <th>User Permissions</th>
+                    <th>Admin Permissions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>User Management (<code>/api/users</code>)</strong></td>
+                    <td><span class="badge badge-danger">Denied (403)</span></td>
+                    <td><span class="badge badge-success">Full Access</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Support Tickets (<code>/api/tickets</code>)</strong></td>
+                    <td><span class="badge badge-success">Own Tickets Only</span></td>
+                    <td><span class="badge badge-success">All Tickets (Reply & Resolve)</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Documents (<code>/api/documents</code>)</strong></td>
+                    <td><span class="badge badge-success">Own Documents Only</span></td>
+                    <td><span class="badge badge-success">Review, Approve & Reject</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Audit & Activity Logs</strong></td>
+                    <td><span class="badge badge-success">Own Activities Only</span></td>
+                    <td><span class="badge badge-success">System-Wide Audit Trail</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Dynamic Content Modules (17 Modules)</strong></td>
+                    <td><span class="badge badge-neutral">Read Active Items</span></td>
+                    <td><span class="badge badge-success">Full CRUD Management</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>System Configuration</strong></td>
+                    <td><span class="badge badge-danger">Denied (403)</span></td>
+                    <td><span class="badge badge-success">Full Configuration</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. VIEW: ACTIVITIES & AUDIT -->
+        <div id="view-activities" class="admin-view-panel" style="display: none;">
+          <div class="table-card">
+            <div class="table-header">
+              <div>
+                <h2 class="table-title">System-Wide Audit Trail</h2>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Cryptographically logged audit events across database entities</p>
+              </div>
+              <div style="display: flex; gap: 10px;">
+                <select id="audit-module-filter" class="form-control" style="width: 180px;" onchange="loadFullAuditLogs()">
+                  <option value="">All Modules</option>
+                  <option value="AUTH">AUTH</option>
+                  <option value="USERS">USERS</option>
+                  <option value="TICKETS">TICKETS</option>
+                  <option value="DOCUMENTS">DOCUMENTS</option>
+                  <option value="FORMS">FORMS</option>
+                  <option value="CONTENT">CONTENT</option>
+                  <option value="MEDIA">MEDIA</option>
+                  <option value="SYSTEM">SYSTEM</option>
+                </select>
+              </div>
+            </div>
+            <div class="audit-feed" id="full-audit-feed" style="padding: 20px;">
+              <div class="loading-container"><span class="spinner"></span><span>Loading audit trail...</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. VIEW: DOCUMENTS -->
+        <div id="view-documents" class="admin-view-panel" style="display: none;">
+          <div class="table-card">
+            <div class="table-header">
+              <div>
+                <h2 class="table-title">Document Approvals & Verification</h2>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Review and approve uploaded user documents</p>
+              </div>
+              <div style="display: flex; gap: 10px;">
+                <select id="doc-status-filter" class="form-control" style="width: 160px;">
+                  <option value="">All Statuses</option>
+                  <option value="pending">Pending Review</option>
+                  <option value="approved">Approved</option>
+                  <option value="rejected">Rejected</option>
+                </select>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th style="width: 60px;">ID</th>
+                    <th>Title & Submitter</th>
+                    <th>File</th>
+                    <th>Size</th>
+                    <th>Status</th>
+                    <th>Uploaded</th>
+                    <th style="width: 170px;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="documents-table-body">
+                  <tr><td colspan="7" class="loading-container"><span class="spinner"></span><span>Loading documents...</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. VIEW: NOTIFICATIONS & ANNOUNCEMENTS -->
+        <div id="view-notifications" class="admin-view-panel" style="display: none;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div class="table-card">
+              <div class="table-header">
+                <div>
+                  <h2 class="table-title">System Notifications</h2>
+                  <p style="font-size: 0.85rem; color: var(--text-muted);">Automated system & user notifications</p>
+                </div>
+              </div>
+              <div id="admin-notifs-list" style="padding: 16px;">
+                <div class="loading-container"><span class="spinner"></span><span>Loading notifications...</span></div>
+              </div>
+            </div>
+
+            <div class="table-card">
+              <div class="table-header">
+                <div>
+                  <h2 class="table-title">Platform Announcements</h2>
+                  <p style="font-size: 0.85rem; color: var(--text-muted);">Broadcast notices shown on dashboards</p>
+                </div>
+                <button class="btn btn-primary btn-sm" onclick="openNewAnnouncementModal()">+ Create Announcement</button>
+              </div>
+              <div id="admin-announcements-list" style="padding: 16px;">
+                <div class="loading-container"><span class="spinner"></span><span>Loading announcements...</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7. VIEW: SUPPORT TICKETS -->
+        <div id="view-tickets" class="admin-view-panel" style="display: none;">
+          <div class="table-card">
+            <div class="table-header">
+              <div>
+                <h2 class="table-title">Support Tickets Helpdesk</h2>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Manage inquiries, provide replies, and update ticket statuses</p>
+              </div>
+              <div style="display: flex; gap: 10px;">
+                <select id="ticket-status-filter" class="form-control" style="width: 140px;">
+                  <option value="">All Statuses</option>
+                  <option value="open">Open</option>
+                  <option value="in_progress">In Progress</option>
+                  <option value="resolved">Resolved</option>
+                  <option value="closed">Closed</option>
+                </select>
+                <select id="ticket-priority-filter" class="form-control" style="width: 140px;">
+                  <option value="">All Priorities</option>
+                  <option value="low">Low</option>
+                  <option value="medium">Medium</option>
+                  <option value="high">High</option>
+                  <option value="urgent">Urgent</option>
+                </select>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th style="width: 60px;">ID</th>
+                    <th>Subject & User</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                    <th>Replies</th>
+                    <th>Created</th>
+                    <th style="width: 140px;">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="tickets-table-body">
+                  <tr><td colspan="7" class="loading-container"><span class="spinner"></span><span>Loading tickets...</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- 8. VIEW: REPORTS & ANALYTICS -->
+        <div id="view-reports" class="admin-view-panel" style="display: none;">
+          <div class="table-card" style="margin-bottom: 20px;">
+            <div class="table-header">
+              <div>
+                <h2 class="table-title">System Reports & SQL Aggregations</h2>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Real-time aggregated metrics computed directly from database records</p>
+              </div>
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <label style="font-size: 0.85rem; font-weight: 600;">Timeframe:</label>
+                <select id="report-range-filter" class="form-control" style="width: 150px;">
+                  <option value="all">All Time</option>
+                  <option value="today">Today</option>
+                  <option value="7days">Past 7 Days</option>
+                  <option value="30days">Past 30 Days</option>
+                  <option value="custom">Custom Range</option>
+                </select>
+                <div id="report-custom-dates" style="display: none; gap: 6px; align-items: center;">
+                  <input type="date" id="report-start-date" class="form-control" style="width: 130px;">
+                  <span>to</span>
+                  <input type="date" id="report-end-date" class="form-control" style="width: 130px;">
+                  <button class="btn btn-sm btn-primary" onclick="loadReports('custom')">Apply</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="reports-data-container">
+            <div class="loading-container"><span class="spinner"></span><span>Aggregating analytics data...</span></div>
+          </div>
+        </div>
+
+        <!-- 9. VIEW: SYSTEM SETTINGS -->
+        <div id="view-settings" class="admin-view-panel" style="display: none;">
+          <div class="table-card" style="max-width: 700px;">
+            <div class="table-header">
+              <h2 class="table-title">Global System Settings</h2>
+            </div>
+            <form id="system-settings-form" style="padding: 24px;">
+              <div class="form-group">
+                <label class="form-label">Platform Name</label>
+                <input type="text" id="sys-site-name" class="form-control" value="Magnus Dynamic CMS">
+              </div>
+
+              <div class="form-group" style="display: flex; flex-direction: row; align-items: center; gap: 10px; margin-top: 10px;">
+                <input type="checkbox" id="sys-allow-reg" style="width: 18px; height: 18px; cursor: pointer;">
+                <div>
+                  <label class="form-label" style="margin: 0; cursor: pointer;" for="sys-allow-reg">Allow Public User Self-Registration</label>
+                  <p class="form-hint" style="margin: 0;">Enables the registration portal for new standard accounts</p>
+                </div>
+              </div>
+
+              <div class="form-group" style="margin-top: 16px;">
+                <label class="form-label">JWT & Session Timeout (Hours)</label>
+                <input type="number" id="sys-session-timeout" class="form-control" min="1" max="720" value="24">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Max Asset Upload Limit (MB)</label>
+                <input type="number" id="sys-max-upload" class="form-control" min="1" max="50" value="5">
+              </div>
+
+              <div class="form-group" style="display: flex; flex-direction: row; align-items: center; gap: 10px; margin-top: 10px;">
+                <input type="checkbox" id="sys-maintenance" style="width: 18px; height: 18px; cursor: pointer;">
+                <div>
+                  <label class="form-label" style="margin: 0; cursor: pointer;" for="sys-maintenance">Maintenance Mode Banner</label>
+                  <p class="form-hint" style="margin: 0;">Display temporary maintenance advisory banner to regular users</p>
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary" style="margin-top: 20px;">Save System Settings</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- 10. VIEW: SECURITY -->
+        <div id="view-security" class="admin-view-panel" style="display: none;">
+          <div class="table-card" style="max-width: 600px;">
+            <div class="table-header">
+              <h2 class="table-title">Admin Account Security & Password</h2>
+            </div>
+            <form id="admin-password-form" style="padding: 24px;">
+              <div class="form-group">
+                <label class="form-label">Current Password <span class="required">*</span></label>
+                <input type="password" id="admin-curr-pass" class="form-control" required placeholder="••••••••••••">
+              </div>
+              <div class="form-group">
+                <label class="form-label">New Password <span class="required">*</span></label>
+                <input type="password" id="admin-new-pass" class="form-control" required placeholder="••••••••••••">
+                <p class="form-hint">Must be at least 6 characters</p>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Confirm New Password <span class="required">*</span></label>
+                <input type="password" id="admin-conf-pass" class="form-control" required placeholder="••••••••••••">
+              </div>
+              <button type="submit" class="btn btn-primary" style="margin-top: 12px;">Update Password</button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- User Add/Edit Modal -->
+  <div class="modal-overlay" id="user-modal">
+    <div class="modal-container" style="max-width: 520px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="user-modal-title">User Account</h3>
+        <button class="modal-close-btn" onclick="closeUserModal()">&times;</button>
+      </div>
+      <form onsubmit="handleSaveUser(event)">
+        <input type="hidden" id="user-form-id">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">Full Name <span class="required">*</span></label>
+            <input type="text" id="user-form-name" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email Address <span class="required">*</span></label>
+            <input type="email" id="user-form-email" class="form-control" required>
+          </div>
+          <div class="form-group" id="user-form-password-group">
+            <label class="form-label">Password <span id="user-pwd-req-mark" class="required">*</span></label>
+            <input type="password" id="user-form-password" class="form-control" placeholder="Leave empty to keep unchanged">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Role</label>
+              <select id="user-form-role" class="form-control">
+                <option value="user">User</option>
+                <option value="admin">Administrator</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Status</label>
+              <select id="user-form-status" class="form-control">
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+                <option value="blocked">Blocked</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="closeUserModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save User</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Ticket Thread & Reply Modal -->
+  <div class="modal-overlay" id="ticket-thread-modal">
+    <div class="modal-container" style="max-width: 680px;">
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title" id="ticket-modal-subject">Support Ticket</h3>
+          <small style="color: var(--text-muted);" id="ticket-modal-user">User</small>
+        </div>
+        <button class="modal-close-btn" onclick="closeTicketThreadModal()">&times;</button>
+      </div>
+      <div class="modal-body" style="max-height: 60vh; overflow-y: auto;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 14px; background: #fafbfc; padding: 10px 14px; border-radius: 6px; border: 1px solid var(--border-color);">
+          <div style="display:flex; align-items:center; gap: 8px;">
+            <span style="font-size:0.85rem; font-weight:600;">Status:</span>
+            <select id="ticket-modal-status-select" class="form-control" style="width:140px; height:32px; padding:4px 8px;" onchange="handleUpdateTicketStatus()">
+              <option value="open">Open</option>
+              <option value="in_progress">In Progress</option>
+              <option value="resolved">Resolved</option>
+              <option value="closed">Closed</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="ticket-messages-thread"></div>
+
+        <form onsubmit="handleSendTicketReply(event)" style="margin-top: 16px;">
+          <input type="hidden" id="ticket-modal-id">
+          <div class="form-group">
+            <label class="form-label">Send Support Reply</label>
+            <textarea id="ticket-reply-input" class="form-control" style="min-height: 80px;" placeholder="Type official administrator response to the user..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="margin-top: 6px;">Send Reply ✉️</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Document Review Modal -->
+  <div class="modal-overlay" id="review-doc-modal">
+    <div class="modal-container" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Review Document</h3>
+        <button class="modal-close-btn" onclick="closeReviewDocModal()">&times;</button>
+      </div>
+      <form onsubmit="handleSaveDocReview(event)">
+        <input type="hidden" id="review-doc-id">
+        <div class="modal-body">
+          <p style="font-weight: 600; margin-bottom: 12px;" id="review-doc-title">Document Title</p>
+          <div class="form-group">
+            <label class="form-label">Approval Decision <span class="required">*</span></label>
+            <select id="review-doc-status" class="form-control">
+              <option value="approved">Approved</option>
+              <option value="pending">Pending</option>
+              <option value="rejected">Rejected</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Review Notes / Feedback</label>
+            <textarea id="review-doc-notes" class="form-control" placeholder="Optional notes for user..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="closeReviewDocModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Decision</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Announcement Modal -->
+  <div class="modal-overlay" id="announcement-modal">
+    <div class="modal-container" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Create Platform Announcement</h3>
+        <button class="modal-close-btn" onclick="closeNewAnnouncementModal()">&times;</button>
+      </div>
+      <form onsubmit="handleSaveAnnouncement(event)">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">Announcement Title <span class="required">*</span></label>
+            <input type="text" id="ann-title" class="form-control" required placeholder="e.g. Maintenance Window">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Message Content <span class="required">*</span></label>
+            <textarea id="ann-message" class="form-control" required placeholder="Enter announcement text..."></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Priority</label>
+              <select id="ann-priority" class="form-control">
+                <option value="normal">Normal</option>
+                <option value="high">High</option>
+                <option value="low">Low</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Audience</label>
+              <select id="ann-target" class="form-control">
+                <option value="all">All Users & Admins</option>
+                <option value="user">Standard Users Only</option>
+                <option value="admin">Admins Only</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="closeNewAnnouncementModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Publish</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="/frontend/js/api.js"></script>
+  <script src="/frontend/js/auth.js"></script>
+  <script src="/frontend/js/dashboard.js"></script>
+</body>
+</html>

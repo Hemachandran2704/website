@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hero Slider - Magnus Dynamic CMS</title>
+  <link rel="stylesheet" href="/frontend/css/style.css">
+  <link rel="stylesheet" href="/frontend/css/dashboard.css">
+  <link rel="stylesheet" href="/frontend/css/tables.css">
+  <link rel="stylesheet" href="/frontend/css/forms.css">
+</head>
+<body>
+  <div class="dashboard-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-brand-icon">M</div>
+        <div class="sidebar-brand-name">Magnus CMS</div>
+        <span class="sidebar-brand-badge" id="sidebar-brand-role">Admin</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <span class="sidebar-section-title">Navigation</span>
+        <a href="/frontend/dashboard.html" class="nav-link"><span class="nav-icon">🏠</span> Home</a>
+        <a href="#" class="nav-link" onclick="alert('Employee section remains unchanged as part of the core Magnus application.'); return false;"><span class="nav-icon">👥</span> Employee</a>
+        <a href="#" class="nav-link" onclick="alert('Settings section remains unchanged as part of the core Magnus application.'); return false;"><span class="nav-icon">⚙️</span> Settings</a>
+
+        <span class="sidebar-section-title">More</span>
+        <div class="nav-group open" id="nav-more-group">
+          <div class="nav-link nav-group-header">
+            <span style="display:flex; align-items:center; gap:12px;"><span class="nav-icon">📁</span> More</span>
+            <span class="nav-chevron">▶</span>
+          </div>
+          <div class="nav-submenu">
+            <a href="/frontend/pages/multiple-tabs.html" class="nav-link">📑 Multiple Tabs</a>
+            <a href="/frontend/pages/menu.html" class="nav-link">🗂️ Menu</a>
+            <a href="/frontend/pages/autocomplete.html" class="nav-link">🔍 Autocomplete</a>
+            <a href="/frontend/pages/collapsible.html" class="nav-link">📂 Collapsible Content</a>
+            <a href="/frontend/pages/images.html" class="nav-link">🖼️ Images</a>
+            <a href="/frontend/pages/slider.html" class="nav-link active">🎞️ Slider</a>
+            <a href="/frontend/pages/tooltips.html" class="nav-link">💬 Tooltips</a>
+            <a href="/frontend/pages/popups.html" class="nav-link">🪟 Popups</a>
+            <a href="/frontend/pages/links.html" class="nav-link">🔗 Links</a>
+            <a href="/frontend/pages/css-properties.html" class="nav-link">🎨 CSS Properties</a>
+            <a href="/frontend/pages/iframes.html" class="nav-link">🖥️ iFrames</a>
+          </div>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile-badge">
+          <div class="user-avatar" id="sidebar-user-avatar">A</div>
+          <div class="user-info">
+            <span class="user-name" id="sidebar-user-name">Administrator</span>
+            <span class="user-role-label" id="sidebar-user-role">ADMIN</span>
+          </div>
+        </div>
+        <button class="btn-sidebar-logout" id="sidebar-logout-btn">
+          <span>🚪</span> Sign Out
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <header class="topbar">
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <button class="btn-mobile-toggle" id="mobile-menu-toggle">☰</button>
+          <div class="page-title-box">
+            <h1 class="page-title">Hero Slider Management</h1>
+            <div class="breadcrumbs">
+              <a href="/frontend/dashboard.html">Dashboard</a> <span>/</span> <span>Hero Slider</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="topbar-actions">
+          <button class="btn btn-primary" id="btn-add-new">
+            <span>➕</span> Add Slider Slide
+          </button>
+        </div>
+      </header>
+
+      <div class="content-body">
+        <!-- Live Slider Interactive Preview -->
+        <div class="preview-container">
+          <div class="preview-header">
+            <span class="preview-title">Live Dynamic Hero Slider</span>
+            <div style="display: flex; gap: 8px;">
+              <button class="btn btn-sm btn-outline" id="slider-prev-btn">◀ Prev</button>
+              <button class="btn btn-sm btn-outline" id="slider-next-btn">Next ▶</button>
+            </div>
+          </div>
+          
+          <div id="slider-slides-container"></div>
+          
+          <div id="slider-dots-container" style="display: flex; justify-content: center; gap: 8px; margin-top: 14px;"></div>
+        </div>
+
+        <!-- Table Management Card -->
+        <div class="table-card">
+          <div class="table-controls">
+            <div class="table-search-box">
+              <span class="search-icon">🔍</span>
+              <input type="text" id="table-search" class="search-input" placeholder="Search slide title, description...">
+            </div>
+
+            <div class="table-filters">
+              <label for="status-filter" style="font-size: 0.85rem; font-weight: 500;">Filter Status:</label>
+              <select id="status-filter" class="filter-select">
+                <option value="all">All Slides</option>
+                <option value="active" selected>Active Only</option>
+                <option value="inactive">Inactive Only</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th style="width: 70px;">ID</th>
+                  <th style="width: 70px;">Image</th>
+                  <th>Slide Title & Description</th>
+                  <th>Associated Image</th>
+                  <th style="width: 130px;">Status / Order</th>
+                  <th style="width: 140px;">Created Date</th>
+                  <th style="width: 190px;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="table-body">
+                <!-- Dynamically Rendered -->
+              </tbody>
+            </table>
+          </div>
+
+          <div class="table-footer">
+            <span id="table-record-count">Loading records...</span>
+            <span style="font-size: 0.75rem; color: var(--text-light);">MySQL Database: magnus_cms.sliders (FK: images.id)</span>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Create / Edit Modal -->
+  <div class="modal-overlay" id="crud-modal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">Create Slider Slide</h3>
+        <button class="modal-close-btn" id="modal-close-btn">&times;</button>
+      </div>
+      <form id="item-form">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="slider-title">Slide Title <span class="required">*</span></label>
+            <input type="text" id="slider-title" class="form-control" placeholder="e.g. Next-Gen Cloud Platform" maxlength="200" required>
+            <span class="form-error" id="slider-title-error"></span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="slider-image">Select Linked Image <span class="required">*</span></label>
+            <select id="slider-image" class="form-control" required>
+              <option value="">-- Select an Image Asset --</option>
+            </select>
+            <span class="form-error" id="slider-image-error"></span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="slider-description">Slide Description</label>
+            <textarea id="slider-description" class="form-control" rows="3" placeholder="Enter slide overlay caption or summary..."></textarea>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="slider-order">Display Order</label>
+              <input type="number" id="slider-order" class="form-control" value="0" min="0">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="slider-status">Status</label>
+              <select id="slider-status" class="form-control">
+                <option value="active">Active (Visible)</option>
+                <option value="inactive">Inactive (Hidden)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" id="modal-cancel-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="modal-submit-btn">Save Slide</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- View Details Modal -->
+  <div class="modal-overlay" id="view-modal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title">Slider Slide Details</h3>
+        <button class="modal-close-btn" id="view-modal-close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="text-align: center; margin-bottom: 16px; background: #000; padding: 6px; border-radius: 8px;">
+          <img id="view-slide-img" src="" alt="Slide Preview" style="max-width: 100%; max-height: 220px; object-fit: cover; border-radius: 4px;" />
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <h2 id="view-slide-title" style="font-size: 1.25rem;"></h2>
+          <span id="view-slide-id" style="font-weight: 700; color: var(--text-muted);"></span>
+        </div>
+        <div style="display: flex; gap: 16px; font-size: 0.85rem; margin-bottom: 12px;">
+          <div><strong>Status:</strong> <span id="view-slide-status"></span></div>
+          <div><strong>Order:</strong> <span id="view-slide-order"></span></div>
+          <div><strong>Image:</strong> <span id="view-slide-image-ref"></span></div>
+        </div>
+        <div style="margin-bottom: 16px;">
+          <strong style="display: block; margin-bottom: 6px;">Caption Description:</strong>
+          <div id="view-slide-desc" style="padding: 10px; background: #f8fafc; border-radius: 6px; border: 1px solid var(--border-color); font-size: 0.875rem;"></div>
+        </div>
+        <div style="font-size: 0.775rem; color: var(--text-muted); border-top: 1px solid var(--border-color); padding-top: 10px;">
+          <span>Created: <strong id="view-slide-created"></strong></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/frontend/js/api.js"></script>
+  <script src="/frontend/js/auth.js"></script>
+  <script src="/frontend/js/slider.js"></script>
+</body>
+</html>

@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Dashboard - Magnus Dynamic CMS</title>
+  <link rel="stylesheet" href="/frontend/css/style.css">
+  <link rel="stylesheet" href="/frontend/css/dashboard.css">
+  <link rel="stylesheet" href="/frontend/css/tables.css">
+  <link rel="stylesheet" href="/frontend/css/forms.css">
+</head>
+<body>
+  <div class="dashboard-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-brand-icon">M</div>
+        <div class="sidebar-brand-name">Magnus CMS</div>
+        <span class="sidebar-brand-badge" style="background:#0284c7; color:#fff;">User</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <span class="sidebar-section-title">My Workspace</span>
+        <a href="#overview" class="nav-link user-tab-link active" data-view="overview"><span class="nav-icon">🏠</span> Dashboard</a>
+        <a href="#profile" class="nav-link user-tab-link" data-view="profile"><span class="nav-icon">👤</span> Profile</a>
+        <a href="#activities" class="nav-link user-tab-link" data-view="activities"><span class="nav-icon">📜</span> My Activities</a>
+        <a href="#notifications" class="nav-link user-tab-link" data-view="notifications"><span class="nav-icon">🔔</span> Notifications</a>
+        <a href="#schedules" class="nav-link user-tab-link" data-view="schedules"><span class="nav-icon">📅</span> Calendar / Schedule</a>
+        <a href="#documents" class="nav-link user-tab-link" data-view="documents"><span class="nav-icon">📄</span> My Documents</a>
+        <a href="#reports" class="nav-link user-tab-link" data-view="reports"><span class="nav-icon">📊</span> My Reports</a>
+        <a href="#favorites" class="nav-link user-tab-link" data-view="favorites"><span class="nav-icon">⭐</span> Favorites / Saved</a>
+        <a href="#support" class="nav-link user-tab-link" data-view="support"><span class="nav-icon">🎫</span> Help & Support</a>
+        <a href="#settings" class="nav-link user-tab-link" data-view="settings"><span class="nav-icon">⚙️</span> Settings</a>
+        <a href="#security" class="nav-link user-tab-link" data-view="security"><span class="nav-icon">🔒</span> Security</a>
+
+        <span class="sidebar-section-title">Explore Modules</span>
+        <a href="/portal" class="nav-link"><span class="nav-icon">🌐</span> Public CMS Showcase</a>
+
+        <span class="sidebar-section-title">More</span>
+        <div class="nav-group open" id="nav-more-group">
+          <div class="nav-link nav-group-header">
+            <span style="display:flex; align-items:center; gap:12px;"><span class="nav-icon">📁</span> More</span>
+            <span class="nav-chevron">▶</span>
+          </div>
+          <div class="nav-submenu">
+            <a href="/frontend/pages/multiple-tabs.html" class="nav-link">📑 Multiple Tabs</a>
+            <a href="/frontend/pages/menu.html" class="nav-link">🗂️ Menu</a>
+            <a href="/frontend/pages/autocomplete.html" class="nav-link">🔍 Autocomplete</a>
+            <a href="/frontend/pages/collapsible.html" class="nav-link">📂 Collapsible Content</a>
+            <a href="/frontend/pages/images.html" class="nav-link">🖼️ Images</a>
+            <a href="/frontend/pages/slider.html" class="nav-link">🎞️ Slider</a>
+            <a href="/frontend/pages/tooltips.html" class="nav-link">💬 Tooltips</a>
+            <a href="/frontend/pages/popups.html" class="nav-link">🪟 Popups</a>
+            <a href="/frontend/pages/links.html" class="nav-link">🔗 Links</a>
+            <a href="/frontend/pages/css-properties.html" class="nav-link">🎨 CSS Properties</a>
+            <a href="/frontend/pages/iframes.html" class="nav-link">🖥️ iFrames</a>
+          </div>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile-badge">
+          <div class="user-avatar" id="sidebar-user-avatar">U</div>
+          <div class="user-info">
+            <span class="user-name" id="sidebar-user-name">User Account</span>
+            <span class="user-role-label" id="sidebar-user-role">USER</span>
+          </div>
+        </div>
+        <button class="btn-sidebar-logout" id="sidebar-logout-btn">
+          <span>🚪</span> Sign Out
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <header class="topbar">
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <button class="btn-mobile-toggle" id="mobile-menu-toggle">☰</button>
+          <div class="page-title-box">
+            <h1 class="page-title" id="user-page-title">User Dashboard</h1>
+            <div class="breadcrumbs">
+              <a href="/dashboard">Portal</a> <span>/</span> <span id="user-breadcrumb-curr">Dashboard</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="topbar-actions">
+          <a href="/portal" class="btn btn-outline btn-sm">🌐 CMS Modules</a>
+        </div>
+      </header>
+
+      <div class="content-body">
+        
+        <!-- 1. VIEW: OVERVIEW -->
+        <div id="user-view-overview" class="user-view-panel">
+          <!-- Announcements -->
+          <div id="overview-announcements-banner" style="display: none; margin-bottom: 20px;"></div>
+
+          <!-- Welcome Banner -->
+          <div style="padding: 24px 28px; background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); border-radius: 12px; color: #ffffff; margin-bottom: 24px; box-shadow: var(--shadow-md);">
+            <h2 style="font-size: 1.4rem; color: #ffffff; margin-bottom: 6px;">Welcome to Your Portal, <span id="overview-welcome-name">User</span>!</h2>
+            <p style="font-size: 0.9rem; color: #dbeafe; max-width: 600px;">
+              Access your personalized workspace, open support tickets with technical staff, upload compliance documents, and manage your activities.
+            </p>
+          </div>
+
+          <!-- Quick Stats Cards -->
+          <section style="margin-bottom: 28px;">
+            <div class="stats-grid" id="user-overview-stats-grid">
+              <div class="loading-container" style="grid-column: 1/-1;"><span class="spinner"></span><span>Loading overview...</span></div>
+            </div>
+          </section>
+
+          <!-- Recent Personal Activities -->
+          <section class="dashboard-section">
+            <div class="dashboard-section-header">
+              <div>
+                <h2 class="dashboard-section-title">My Recent Activities</h2>
+                <p style="font-size: 0.85rem; margin-top: 2px;">Your recent actions and events across the platform</p>
+              </div>
+            </div>
+            <div class="audit-feed" id="overview-recent-activities">
+              <div class="loading-container"><span class="spinner"></span><span>Loading activities...</span></div>
+            </div>
+          </section>
+        </div>
+
+        <!-- 2. VIEW: PROFILE -->
+        <div id="user-view-profile" class="user-view-panel" style="display: none;">
+          <div class="table-card" style="max-width: 680px;">
+            <div class="table-header">
+              <div>
+                <h2 class="table-title">My Profile Details</h2>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Manage your personal account profile information</p>
+              </div>
+            </div>
+            <form id="user-profile-form" style="padding: 24px;">
+              <div class="form-group">
+                <label class="form-label">Full Name <span class="required">*</span></label>
+                <input type="text" id="prof-name" class="form-control" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Email Address</label>
+                <input type="email" id="prof-email" class="form-control" disabled style="background:#f1f5f9; cursor:not-allowed;">
+                <p class="form-hint">Email address cannot be changed directly for security reasons</p>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Phone Number</label>
+                  <input type="text" id="prof-phone" class="form-control" placeholder="+1-555-0199">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Department / Unit</label>
+                  <input type="text" id="prof-dept" class="form-control" placeholder="Operations">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">About / Biography</label>
+                <textarea id="prof-bio" class="form-control" placeholder="Brief details about your role..."></textarea>
+              </div>
+              <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 16px;">
+                Member Since: <strong id="prof-registered">—</strong>
+              </div>
+              <button type="submit" class="btn btn-primary">Save Profile Changes</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- 3. VIEW: ACTIVITIES -->
+        <div id="user-view-activities" class="user-view-panel" style="display: none;">
+          <div class="table-card">
+            <div class="table-header">
+              <div>
+                <h2 class="table-title">Personal Activity Log</h2>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Track your authenticated session actions, ticket submissions, and document uploads</p>
+              </div>
+            </div>
+            <div id="user-activities-list" style="padding: 20px;">
+              <div class="loading-container"><span class="spinner"></span><span>Loading your activities...</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. VIEW: NOTIFICATIONS -->
+        <div id="user-view-notifications" class="user-view-panel" style="display: none;">
+          <div class="table-card">
+            <div class="table-header">
+              <div>
+                <h2 class="table-title">Personal Notifications & Alerts</h2>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">System announcements, ticket updates, and activity digests</p>
+              </div>
+            </div>
+            <div id="user-notifications-list" style="padding: 20px;">
+              <div class="loading-container"><span class="spinner"></span><span>Loading notifications...</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. VIEW: SCHEDULES -->
+        <div id="user-view-schedules" class="user-view-panel" style="display: none;">
+          <div class="table-card">
+            <div class="table-header">
+              <div>
+                <h2 class="table-title">Calendar & Schedule Planner</h2>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Organize upcoming meetings, reviews, and tasks</p>
+              </div>
+              <button class="btn btn-primary" onclick="openNewScheduleModal()">+ Add Schedule Event</button>
+            </div>
+            <div id="user-schedules-list" style="padding: 20px;">
+              <div class="loading-container"><span class="spinner"></span><span>Loading schedules...</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. VIEW: DOCUMENTS -->
+        <div id="user-view-documents" class="user-view-panel" style="display: none;">
+          <div class="table-card">
+            <div class="table-header">
+              <div>
+                <h2 class="table-title">My Uploaded Documents</h2>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Manage submitted files and check administrative verification status</p>
+              </div>
+              <button class="btn btn-primary" onclick="openUploadDocModal()">+ Upload New Document</button>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th style="width: 60px;">ID</th>
+                    <th>Document Title</th>
+                    <th>File Name</th>
+                    <th>Size</th>
+                    <th>Verification Status</th>
+                    <th style="width: 140px;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="user-documents-table-body">
+                  <tr><td colspan="6" class="loading-container"><span class="spinner"></span><span>Loading documents...</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7. VIEW: REPORTS -->
+        <div id="user-view-reports" class="user-view-panel" style="display: none;">
+          <div class="table-card" style="margin-bottom: 20px;">
+            <div class="table-header">
+              <div>
+                <h2 class="table-title">My Usage Summary & Activity Reports</h2>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Personal platform metrics and activity distribution</p>
+              </div>
+            </div>
+          </div>
+          <div id="user-reports-container">
+            <div class="loading-container"><span class="spinner"></span><span>Loading personal report...</span></div>
+          </div>
+        </div>
+
+        <!-- 8. VIEW: FAVORITES -->
+        <div id="user-view-favorites" class="user-view-panel" style="display: none;">
+          <div class="table-card">
+            <div class="table-header">
+              <div>
+                <h2 class="table-title">Favorites & Bookmarks</h2>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Quick-access bookmarks to your frequently used links and dynamic modules</p>
+              </div>
+              <button class="btn btn-primary" onclick="openNewFavoriteModal()">+ Bookmark Item</button>
+            </div>
+            <div id="user-favorites-list" style="padding: 20px;">
+              <div class="loading-container"><span class="spinner"></span><span>Loading favorites...</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 9. VIEW: SUPPORT -->
+        <div id="user-view-support" class="user-view-panel" style="display: none;">
+          <div class="table-card">
+            <div class="table-header">
+              <div>
+                <h2 class="table-title">Help & Support Tickets</h2>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Contact our technical staff, submit queries, and track replies in real-time</p>
+              </div>
+              <button class="btn btn-primary" onclick="openNewTicketModal()">+ Open Support Ticket</button>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th style="width: 60px;">ID</th>
+                    <th>Subject & Category</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th style="width: 170px;">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="user-tickets-table-body">
+                  <tr><td colspan="6" class="loading-container"><span class="spinner"></span><span>Loading tickets...</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- 10. VIEW: SETTINGS -->
+        <div id="user-view-settings" class="user-view-panel" style="display: none;">
+          <div class="table-card" style="max-width: 680px;">
+            <div class="table-header">
+              <h2 class="table-title">Personal Preferences & Settings</h2>
+            </div>
+            <form id="user-prefs-form" style="padding: 24px;">
+              <h3 style="font-size: 0.95rem; margin-bottom: 12px; color: var(--text-main);">Notification Subscriptions</h3>
+              <div class="form-group" style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+                <input type="checkbox" id="pref-email-notifs" style="width: 18px; height: 18px; cursor: pointer;">
+                <div>
+                  <label class="form-label" style="margin: 0; cursor: pointer;" for="pref-email-notifs">Email Notifications</label>
+                  <p class="form-hint" style="margin: 0;">Receive email updates when staff replies to support tickets</p>
+                </div>
+              </div>
+
+              <div class="form-group" style="display: flex; flex-direction: row; align-items: center; gap: 10px; margin-top: 10px;">
+                <input type="checkbox" id="pref-sec-alerts" style="width: 18px; height: 18px; cursor: pointer;">
+                <div>
+                  <label class="form-label" style="margin: 0; cursor: pointer;" for="pref-sec-alerts">Security Alerts</label>
+                  <p class="form-hint" style="margin: 0;">Get notified of account password updates and logins</p>
+                </div>
+              </div>
+
+              <div class="form-group" style="display: flex; flex-direction: row; align-items: center; gap: 10px; margin-top: 10px;">
+                <input type="checkbox" id="pref-digest" style="width: 18px; height: 18px; cursor: pointer;">
+                <div>
+                  <label class="form-label" style="margin: 0; cursor: pointer;" for="pref-digest">Weekly Activity Digest</label>
+                  <p class="form-hint" style="margin: 0;">Summary of your activities delivered weekly</p>
+                </div>
+              </div>
+
+              <hr style="border: none; border-top: 1px solid var(--border-color); margin: 20px 0;">
+
+              <h3 style="font-size: 0.95rem; margin-bottom: 12px; color: var(--text-main);">Language & Appearance</h3>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Language</label>
+                  <select id="pref-lang" class="form-control">
+                    <option value="en">English (US)</option>
+                    <option value="es">Español</option>
+                    <option value="fr">Français</option>
+                    <option value="de">Deutsch</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Theme Appearance</label>
+                  <select id="pref-theme" class="form-control">
+                    <option value="light">Light Mode</option>
+                    <option value="dark">Dark Mode</option>
+                  </select>
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary" style="margin-top: 12px;">Save Preferences</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- 11. VIEW: SECURITY -->
+        <div id="user-view-security" class="user-view-panel" style="display: none;">
+          <div class="table-card" style="max-width: 600px;">
+            <div class="table-header">
+              <h2 class="table-title">Password & Account Security</h2>
+            </div>
+            <form id="user-security-password-form" style="padding: 24px;">
+              <div class="form-group">
+                <label class="form-label">Current Password <span class="required">*</span></label>
+                <input type="password" id="user-curr-pass" class="form-control" required placeholder="••••••••••••">
+              </div>
+              <div class="form-group">
+                <label class="form-label">New Password <span class="required">*</span></label>
+                <input type="password" id="user-new-pass" class="form-control" required placeholder="••••••••••••">
+                <p class="form-hint">Must be at least 6 characters long</p>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Confirm New Password <span class="required">*</span></label>
+                <input type="password" id="user-conf-pass" class="form-control" required placeholder="••••••••••••">
+              </div>
+              <button type="submit" class="btn btn-primary" style="margin-top: 12px;">Update Password</button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- New Ticket Modal -->
+  <div class="modal-overlay" id="new-ticket-modal">
+    <div class="modal-container" style="max-width: 520px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Open Support Ticket</h3>
+        <button class="modal-close-btn" onclick="closeNewTicketModal()">&times;</button>
+      </div>
+      <form id="new-ticket-form">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">Subject <span class="required">*</span></label>
+            <input type="text" id="ticket-subj" class="form-control" required placeholder="e.g. Inquiring about API keys">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Category</label>
+              <select id="ticket-cat" class="form-control">
+                <option value="General">General Inquiry</option>
+                <option value="Technical Support">Technical Support</option>
+                <option value="Billing">Billing & Licensing</option>
+                <option value="Feature Request">Feature Request</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Priority</label>
+              <select id="ticket-pri" class="form-control">
+                <option value="low">Low</option>
+                <option value="medium" selected>Medium</option>
+                <option value="high">High</option>
+                <option value="urgent">Urgent</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Message Details <span class="required">*</span></label>
+            <textarea id="ticket-msg" class="form-control" required placeholder="Describe your question or issue in detail..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="closeNewTicketModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Submit Ticket</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- User Ticket Conversation Modal -->
+  <div class="modal-overlay" id="user-ticket-thread-modal">
+    <div class="modal-container" style="max-width: 680px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="user-thread-subj">Ticket Conversation</h3>
+        <button class="modal-close-btn" onclick="closeUserTicketThreadModal()">&times;</button>
+      </div>
+      <div class="modal-body" style="max-height: 60vh; overflow-y: auto;">
+        <div id="user-thread-messages"></div>
+
+        <form onsubmit="handleSendUserTicketReply(event)" style="margin-top: 16px;">
+          <input type="hidden" id="user-thread-id">
+          <div class="form-group">
+            <label class="form-label">Send Follow-Up Reply</label>
+            <textarea id="user-thread-reply-input" class="form-control" style="min-height: 80px;" placeholder="Add message to ticket thread..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="margin-top: 6px;">Send Message ✉️</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Upload Document Modal -->
+  <div class="modal-overlay" id="upload-doc-modal">
+    <div class="modal-container" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Upload Document</h3>
+        <button class="modal-close-btn" onclick="closeUploadDocModal()">&times;</button>
+      </div>
+      <form id="upload-doc-form">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">Document Title <span class="required">*</span></label>
+            <input type="text" name="title" class="form-control" required placeholder="e.g. Identity Verification / Contract">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Category</label>
+            <select name="category" class="form-control">
+              <option value="General">General</option>
+              <option value="Agreements">Agreements</option>
+              <option value="Compliance">Compliance</option>
+              <option value="Reports">Reports</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Select File (PDF, Image, Doc) <span class="required">*</span></label>
+            <input type="file" name="document_file" class="form-control" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="closeUploadDocModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Upload Document</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- New Schedule Modal -->
+  <div class="modal-overlay" id="schedule-modal">
+    <div class="modal-container" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Add Schedule Event</h3>
+        <button class="modal-close-btn" onclick="closeNewScheduleModal()">&times;</button>
+      </div>
+      <form id="new-schedule-form">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">Event Title <span class="required">*</span></label>
+            <input type="text" id="sched-title" class="form-control" required placeholder="e.g. Product Demo / Sync">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Description</label>
+            <textarea id="sched-desc" class="form-control" placeholder="Optional notes..."></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Date <span class="required">*</span></label>
+              <input type="date" id="sched-date" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Time</label>
+              <input type="time" id="sched-time" class="form-control" value="09:00">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="closeNewScheduleModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Add Event</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- New Favorite Modal -->
+  <div class="modal-overlay" id="favorite-modal">
+    <div class="modal-container" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Bookmark Item</h3>
+        <button class="modal-close-btn" onclick="closeNewFavoriteModal()">&times;</button>
+      </div>
+      <form id="new-favorite-form">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">Bookmark Title <span class="required">*</span></label>
+            <input type="text" id="fav-title" class="form-control" required placeholder="e.g. Form Manager">
+          </div>
+          <div class="form-group">
+            <label class="form-label">URL / Path <span class="required">*</span></label>
+            <input type="text" id="fav-url" class="form-control" required placeholder="/frontend/pages/form-manager.html">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Category</label>
+            <select id="fav-category" class="form-control">
+              <option value="Module">Dynamic Module</option>
+              <option value="Document">Document</option>
+              <option value="External">External Link</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="closeNewFavoriteModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Bookmark</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="/frontend/js/api.js"></script>
+  <script src="/frontend/js/auth.js"></script>
+  <script src="/frontend/js/user-dashboard.js"></script>
+</body>
+</html>

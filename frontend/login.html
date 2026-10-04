@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Magnus Dynamic CMS</title>
+  <link rel="stylesheet" href="/frontend/css/style.css">
+  <link rel="stylesheet" href="/frontend/css/forms.css">
+</head>
+<body>
+  <div class="auth-wrapper">
+    <div class="auth-card">
+      <div class="auth-header">
+        <div class="auth-brand-logo">M</div>
+        <h1 class="auth-title">Magnus CMS</h1>
+        <p class="auth-subtitle">Sign in to manage your dynamic modules & system content</p>
+      </div>
+
+      <div id="login-error" class="form-error" style="display: none; padding: 10px 14px; background: #fee2e2; border-radius: 6px; margin-bottom: 16px; border: 1px solid #fca5a5;"></div>
+
+      <form id="login-form" method="POST" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="email">Email Address <span class="required">*</span></label>
+          <input type="email" id="email" name="email" class="form-control" placeholder="user@magnus.com" required autocomplete="email" spellcheck="false">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="password">Password <span class="required">*</span></label>
+          <input type="password" id="password" name="password" class="form-control" placeholder="••••••••••••" required autocomplete="current-password">
+        </div>
+
+        <button type="submit" id="login-submit-btn" class="btn btn-primary" style="width: 100%; padding: 12px; margin-top: 8px;">
+          Sign In
+        </button>
+      </form>
+
+      <div class="demo-credentials-box">
+        <strong>Demo Credentials (Click to prefill):</strong>
+        <div class="demo-cred-row">
+          <span>user@magnus.com</span>
+          <button type="button" class="demo-fill-btn" onclick="fillCreds('user@magnus.com', 'UserPassword123!')">Fill</button>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 20px; font-size: 0.85rem;">
+        <span style="color: var(--text-muted);">Don't have an account?</span>
+        <a href="/register" style="color: var(--primary); font-weight: 600; text-decoration: none; margin-left: 4px;">Create an account</a>
+      </div>
+
+      <div style="text-align: center; margin-top: 16px; font-size: 0.8rem; color: var(--text-muted);">
+        Magnus Dynamic Content Management System &bull; Secure Authentication
+      </div>
+    </div>
+  </div>
+
+  <script src="/frontend/js/api.js"></script>
+  <script src="/frontend/js/auth.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      Auth.initLoginPage();
+    });
+
+    function fillCreds(email, pass) {
+      if (typeof window.fillCreds === "function") {
+        window.fillCreds(email, pass);
+      } else {
+        const emailEl = document.getElementById("email");
+        const passEl = document.getElementById("password");
+        if (emailEl) emailEl.value = email;
+        if (passEl) passEl.value = pass;
+      }
+    }
+  </script>
+</body>
+</html>

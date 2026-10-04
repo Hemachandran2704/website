@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Activity Logs - Magnus Dynamic CMS</title>
+  <link rel="stylesheet" href="/frontend/css/style.css">
+  <link rel="stylesheet" href="/frontend/css/dashboard.css">
+  <link rel="stylesheet" href="/frontend/css/tables.css">
+</head>
+<body>
+  <div class="dashboard-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-brand-icon">M</div>
+        <div class="sidebar-brand-name">Magnus CMS</div>
+        <span class="sidebar-brand-badge">Admin</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <span class="sidebar-section-title">Navigation</span>
+        <a href="/frontend/dashboard.html" class="nav-link"><span class="nav-icon">🏠</span> Home</a>
+        <a href="#" class="nav-link" onclick="alert('Employee section remains unchanged as part of the core Magnus application.'); return false;"><span class="nav-icon">👥</span> Employee</a>
+        <a href="#" class="nav-link" onclick="alert('Settings section remains unchanged as part of the core Magnus application.'); return false;"><span class="nav-icon">⚙️</span> Settings</a>
+
+        <span class="sidebar-section-title">More</span>
+        <div class="nav-group open" id="nav-more-group">
+          <div class="nav-link nav-group-header">
+            <span style="display:flex; align-items:center; gap:12px;"><span class="nav-icon">📁</span> More</span>
+            <span class="nav-chevron">▶</span>
+          </div>
+          <div class="nav-submenu">
+            <a href="/frontend/pages/multiple-tabs.html" class="nav-link">📑 Multiple Tabs</a>
+            <a href="/frontend/pages/menu.html" class="nav-link">🗂️ Menu</a>
+            <a href="/frontend/pages/autocomplete.html" class="nav-link">🔍 Autocomplete</a>
+            <a href="/frontend/pages/collapsible.html" class="nav-link">📂 Collapsible Content</a>
+            <a href="/frontend/pages/images.html" class="nav-link">🖼️ Images</a>
+            <a href="/frontend/pages/slider.html" class="nav-link">🎞️ Slider</a>
+            <a href="/frontend/pages/tooltips.html" class="nav-link">💬 Tooltips</a>
+            <a href="/frontend/pages/popups.html" class="nav-link">🪟 Popups</a>
+            <a href="/frontend/pages/links.html" class="nav-link">🔗 Links</a>
+            <a href="/frontend/pages/css-properties.html" class="nav-link">🎨 CSS Properties</a>
+            <a href="/frontend/pages/iframes.html" class="nav-link">🖥️ iFrames</a>
+            <a href="/frontend/pages/content-manager.html" class="nav-link">📝 Content Manager</a>
+            <a href="/frontend/pages/media-manager.html" class="nav-link">📁 Media Manager</a>
+            <a href="/frontend/pages/form-manager.html" class="nav-link">📋 Form Manager</a>
+            <a href="/frontend/pages/notification-manager.html" class="nav-link">🔔 Notification Manager</a>
+            <a href="/frontend/pages/activity-logs.html" class="nav-link active">📜 Activity Logs</a>
+            <a href="/frontend/pages/reports.html" class="nav-link">📊 Reports</a>
+          </div>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile-badge">
+          <div class="user-avatar" id="sidebar-user-avatar">A</div>
+          <div class="user-info">
+            <span class="user-name" id="sidebar-user-name">Administrator</span>
+            <span class="user-role-label" id="sidebar-user-role">ADMIN</span>
+          </div>
+        </div>
+        <button class="btn-sidebar-logout" id="sidebar-logout-btn">
+          <span>🚪</span> Sign Out
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <header class="topbar">
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <button class="btn-mobile-toggle" id="mobile-menu-toggle">☰</button>
+          <div class="page-title-box">
+            <h1 class="page-title">Activity Logs</h1>
+            <div class="breadcrumbs">
+              <a href="/frontend/dashboard.html">Home</a> <span>/</span> <a href="#">More</a> <span>/</span> <span>Activity Logs</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="topbar-actions">
+          <button class="btn btn-outline btn-sm" id="btn-refresh-logs">
+            <span>🔄</span> Refresh Logs
+          </button>
+        </div>
+      </header>
+
+      <div class="content-body">
+        <!-- Table Management Card -->
+        <div class="table-card">
+          <div class="table-controls">
+            <div class="table-search-box">
+              <span class="search-icon">🔍</span>
+              <input type="text" id="table-search" class="search-input" placeholder="Search user, action, module, description...">
+            </div>
+
+            <div class="table-filters">
+              <label for="module-filter" style="font-size: 0.85rem; font-weight: 500;">Module:</label>
+              <select id="module-filter" class="filter-select">
+                <option value="ALL">All Modules</option>
+                <option value="TABS">Tabs</option>
+                <option value="MENUS">Menu</option>
+                <option value="AUTOCOMPLETE">Autocomplete</option>
+                <option value="COLLAPSIBLE">Collapsible</option>
+                <option value="IMAGES">Images</option>
+                <option value="SLIDERS">Slider</option>
+                <option value="TOOLTIPS">Tooltips</option>
+                <option value="POPUPS">Popups</option>
+                <option value="LINKS">Links</option>
+                <option value="CSS">CSS Properties</option>
+                <option value="IFRAMES">iFrames</option>
+                <option value="CONTENT">Content Manager</option>
+                <option value="MEDIA">Media Manager</option>
+                <option value="FORMS">Forms</option>
+                <option value="NOTIFICATIONS">Notifications</option>
+                <option value="USERS">Users</option>
+                <option value="SYSTEM">System</option>
+              </select>
+
+              <label for="action-filter" style="font-size: 0.85rem; font-weight: 500; margin-left: 8px;">Action:</label>
+              <select id="action-filter" class="filter-select">
+                <option value="ALL">All Actions</option>
+                <option value="CREATE">CREATE</option>
+                <option value="UPDATE">UPDATE</option>
+                <option value="DELETE">DELETE</option>
+                <option value="SUBMIT">SUBMIT</option>
+                <option value="LOGIN">LOGIN</option>
+                <option value="SEED">SEED</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th style="width: 70px;">ID</th>
+                  <th style="width: 130px;">Action</th>
+                  <th style="width: 140px;">Module</th>
+                  <th style="width: 110px;">Record ID</th>
+                  <th>Description</th>
+                  <th style="width: 170px;">User</th>
+                  <th style="width: 170px;">Timestamp</th>
+                </tr>
+              </thead>
+              <tbody id="table-body">
+                <tr>
+                  <td colspan="7" class="loading-container">
+                    <span class="spinner"></span>
+                    <span>Retrieving activity records...</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="table-pagination" style="display: flex; justify-content: space-between; align-items: center; padding: 12px 16px;">
+            <span class="table-record-count" id="table-record-count">Showing 0 logs</span>
+            <div style="display: flex; gap: 8px; align-items: center;" id="pagination-controls">
+              <!-- Pagination Buttons -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="/frontend/js/api.js"></script>
+  <script src="/frontend/js/auth.js"></script>
+  <script src="/frontend/js/activity-logs.js"></script>
+</body>
+</html>

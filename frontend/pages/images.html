@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Library - Magnus Dynamic CMS</title>
+  <link rel="stylesheet" href="/frontend/css/style.css">
+  <link rel="stylesheet" href="/frontend/css/dashboard.css">
+  <link rel="stylesheet" href="/frontend/css/tables.css">
+  <link rel="stylesheet" href="/frontend/css/forms.css">
+</head>
+<body>
+  <div class="dashboard-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-brand-icon">M</div>
+        <div class="sidebar-brand-name">Magnus CMS</div>
+        <span class="sidebar-brand-badge" id="sidebar-brand-role">Admin</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <span class="sidebar-section-title">Navigation</span>
+        <a href="/frontend/dashboard.html" class="nav-link"><span class="nav-icon">🏠</span> Home</a>
+        <a href="#" class="nav-link" onclick="alert('Employee section remains unchanged as part of the core Magnus application.'); return false;"><span class="nav-icon">👥</span> Employee</a>
+        <a href="#" class="nav-link" onclick="alert('Settings section remains unchanged as part of the core Magnus application.'); return false;"><span class="nav-icon">⚙️</span> Settings</a>
+
+        <span class="sidebar-section-title">More</span>
+        <div class="nav-group open" id="nav-more-group">
+          <div class="nav-link nav-group-header">
+            <span style="display:flex; align-items:center; gap:12px;"><span class="nav-icon">📁</span> More</span>
+            <span class="nav-chevron">▶</span>
+          </div>
+          <div class="nav-submenu">
+            <a href="/frontend/pages/multiple-tabs.html" class="nav-link">📑 Multiple Tabs</a>
+            <a href="/frontend/pages/menu.html" class="nav-link">🗂️ Menu</a>
+            <a href="/frontend/pages/autocomplete.html" class="nav-link">🔍 Autocomplete</a>
+            <a href="/frontend/pages/collapsible.html" class="nav-link">📂 Collapsible Content</a>
+            <a href="/frontend/pages/images.html" class="nav-link active">🖼️ Images</a>
+            <a href="/frontend/pages/slider.html" class="nav-link">🎞️ Slider</a>
+            <a href="/frontend/pages/tooltips.html" class="nav-link">💬 Tooltips</a>
+            <a href="/frontend/pages/popups.html" class="nav-link">🪟 Popups</a>
+            <a href="/frontend/pages/links.html" class="nav-link">🔗 Links</a>
+            <a href="/frontend/pages/css-properties.html" class="nav-link">🎨 CSS Properties</a>
+            <a href="/frontend/pages/iframes.html" class="nav-link">🖥️ iFrames</a>
+          </div>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile-badge">
+          <div class="user-avatar" id="sidebar-user-avatar">A</div>
+          <div class="user-info">
+            <span class="user-name" id="sidebar-user-name">Administrator</span>
+            <span class="user-role-label" id="sidebar-user-role">ADMIN</span>
+          </div>
+        </div>
+        <button class="btn-sidebar-logout" id="sidebar-logout-btn">
+          <span>🚪</span> Sign Out
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <header class="topbar">
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <button class="btn-mobile-toggle" id="mobile-menu-toggle">☰</button>
+          <div class="page-title-box">
+            <h1 class="page-title">Image Assets Management</h1>
+            <div class="breadcrumbs">
+              <a href="/frontend/dashboard.html">Dashboard</a> <span>/</span> <span>Image Library</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="topbar-actions">
+          <button class="btn btn-primary" id="btn-add-new">
+            <span>📤</span> Upload New Image
+          </button>
+        </div>
+      </header>
+
+      <div class="content-body">
+        <!-- Live Gallery Grid Preview -->
+        <div class="preview-container">
+          <div class="preview-header">
+            <span class="preview-title">Live Image Asset Gallery</span>
+            <span class="badge badge-active">Flask Upload Storage</span>
+          </div>
+          <div id="preview-image-gallery" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px;"></div>
+        </div>
+
+        <!-- Table Management Card -->
+        <div class="table-card">
+          <div class="table-controls">
+            <div class="table-search-box">
+              <span class="search-icon">🔍</span>
+              <input type="text" id="table-search" class="search-input" placeholder="Search image title, alt, category...">
+            </div>
+
+            <div class="table-filters">
+              <label for="status-filter" style="font-size: 0.85rem; font-weight: 500;">Filter Status:</label>
+              <select id="status-filter" class="filter-select">
+                <option value="all">All Images</option>
+                <option value="active" selected>Active Only</option>
+                <option value="inactive">Inactive Only</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th style="width: 70px;">ID</th>
+                  <th style="width: 70px;">Thumbnail</th>
+                  <th>Image Title & Alt Text</th>
+                  <th>Category</th>
+                  <th style="width: 120px;">Status</th>
+                  <th style="width: 140px;">Created Date</th>
+                  <th style="width: 190px;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="table-body">
+                <!-- Dynamically Rendered -->
+              </tbody>
+            </table>
+          </div>
+
+          <div class="table-footer">
+            <span id="table-record-count">Loading records...</span>
+            <span style="font-size: 0.75rem; color: var(--text-light);">MySQL Database: magnus_cms.images &bull; Storage: /backend/uploads</span>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Create / Edit Modal -->
+  <div class="modal-overlay" id="crud-modal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">Upload Image Asset</h3>
+        <button class="modal-close-btn" id="modal-close-btn">&times;</button>
+      </div>
+      <form id="item-form">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="image-title">Image Title <span class="required">*</span></label>
+            <input type="text" id="image-title" class="form-control" placeholder="e.g. Cloud Infrastructure Overview" maxlength="200" required>
+            <span class="form-error" id="image-title-error"></span>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="image-alt-text">Alt Text</label>
+              <input type="text" id="image-alt-text" class="form-control" placeholder="Descriptive image accessibility text">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="image-category">Category</label>
+              <input type="text" id="image-category" class="form-control" placeholder="e.g. Technology, Hero, Promo" value="General">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="image-description">Description</label>
+            <textarea id="image-description" class="form-control" rows="3" placeholder="Optional notes or context..."></textarea>
+          </div>
+
+          <!-- File Upload Field -->
+          <div class="form-group">
+            <label class="form-label">Image File <span class="required">*</span></label>
+            <div class="file-upload-zone">
+              <input type="file" id="image-file" class="file-upload-input" accept="image/jpeg,image/png,image/webp">
+              <div class="file-upload-icon">📁</div>
+              <p id="file-upload-prompt-text" style="font-size: 0.85rem; color: var(--text-main); font-weight: 500;">
+                Click to browse or drop image here (JPG, PNG, WebP up to 5MB)
+              </p>
+              <img id="file-preview-img" class="file-preview-thumb" style="display: none; margin: 10px auto 0 auto;" alt="Preview" />
+            </div>
+            <span class="form-error" id="image-file-error"></span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="image-status">Status</label>
+            <select id="image-status" class="form-control">
+              <option value="active">Active (Visible)</option>
+              <option value="inactive">Inactive (Hidden)</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" id="modal-cancel-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="modal-submit-btn">Save Image</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- View Details Modal -->
+  <div class="modal-overlay" id="view-modal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title">Image Asset Details</h3>
+        <button class="modal-close-btn" id="view-modal-close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="text-align: center; margin-bottom: 16px; background: #f8fafc; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color);">
+          <img id="view-image-preview" src="" alt="Image Preview" style="max-width: 100%; max-height: 260px; object-fit: contain; border-radius: 4px;" />
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <h2 id="view-image-title" style="font-size: 1.25rem;"></h2>
+          <span id="view-image-id" style="font-weight: 700; color: var(--text-muted);"></span>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 0.85rem; margin-bottom: 12px;">
+          <div><strong>Category:</strong> <span id="view-image-category"></span></div>
+          <div><strong>Alt Text:</strong> <span id="view-image-alt"></span></div>
+          <div><strong>Status:</strong> <span id="view-image-status"></span></div>
+          <div><strong>File:</strong> <code id="view-image-path" style="font-size: 0.75rem;"></code></div>
+        </div>
+        <div style="margin-bottom: 16px;">
+          <strong style="display: block; margin-bottom: 6px;">Description:</strong>
+          <div id="view-image-desc" style="padding: 10px; background: #f8fafc; border-radius: 6px; border: 1px solid var(--border-color); font-size: 0.875rem;"></div>
+        </div>
+        <div style="font-size: 0.775rem; color: var(--text-muted); border-top: 1px solid var(--border-color); padding-top: 10px;">
+          <span>Uploaded: <strong id="view-image-created"></strong></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/frontend/js/api.js"></script>
+  <script src="/frontend/js/auth.js"></script>
+  <script src="/frontend/js/images.js"></script>
+</body>
+</html>

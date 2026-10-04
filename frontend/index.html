@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Magnus Dynamic Content Management System</title>
+  <link rel="stylesheet" href="/frontend/css/style.css">
+  <style>
+    /* Public Portal Specific Styling */
+    .public-navbar {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      padding: 12px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, var(--primary), #3b82f6);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      color: #ffffff;
+      font-size: 1.2rem;
+    }
+
+    .brand-title {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .nav-menu-bar {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .nav-item {
+      position: relative;
+    }
+
+    .nav-item > a {
+      color: var(--text-main);
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 6px 10px;
+      border-radius: 4px;
+    }
+
+    .nav-item:hover > a {
+      color: var(--primary);
+      background: var(--bg-muted);
+    }
+
+    /* Dropdown child menu */
+    .nav-dropdown {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      box-shadow: var(--shadow-lg);
+      min-width: 180px;
+      display: none;
+      flex-direction: column;
+      padding: 6px 0;
+      z-index: 1100;
+    }
+
+    .nav-item:hover .nav-dropdown {
+      display: flex;
+    }
+
+    .nav-dropdown a {
+      padding: 8px 16px;
+      font-size: 0.85rem;
+      color: var(--text-main);
+      white-space: nowrap;
+    }
+
+    .nav-dropdown a:hover {
+      background: var(--bg-muted);
+      color: var(--primary);
+    }
+
+    .portal-hero {
+      padding: 40px 32px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 32px;
+    }
+
+    .section-header {
+      margin-bottom: 24px;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .module-badge {
+      font-size: 0.75rem;
+      background: var(--primary-light);
+      color: var(--primary);
+      padding: 3px 8px;
+      border-radius: 9999px;
+      font-weight: 600;
+    }
+
+    .public-footer {
+      background: #0f172a;
+      color: #94a3b8;
+      padding: 40px 32px;
+      margin-top: 60px;
+      text-align: center;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Public Top Navigation Bar (Populated dynamically from MySQL menus) -->
+  <header class="public-navbar">
+    <div class="brand-group">
+      <div class="brand-icon">M</div>
+      <span class="brand-title">Magnus Dynamic CMS</span>
+    </div>
+
+    <nav class="nav-menu-bar" id="public-nav-container">
+      <!-- Dynamically generated menu items -->
+      <a href="#section-tabs" class="btn btn-outline btn-sm">Tabs</a>
+      <a href="#section-slider" class="btn btn-outline btn-sm">Slider</a>
+      <a href="#section-autocomplete" class="btn btn-outline btn-sm">Search</a>
+      <a href="#section-collapsible" class="btn btn-outline btn-sm">FAQ</a>
+    </nav>
+
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <span id="user-status-indicator" style="font-size: 0.85rem; color: var(--text-muted);"></span>
+      <a href="/frontend/login.html" id="nav-auth-btn" class="btn btn-primary btn-sm">Admin Sign In</a>
+    </div>
+  </header>
+
+  <!-- 1. Hero Dynamic Slider Section -->
+  <section class="portal-hero" id="section-slider">
+    <div class="section-header">
+      <h2 class="section-title"><span>🎞️</span> Hero Slider <span class="module-badge">Module 6</span></h2>
+      <span style="font-size: 0.85rem; color: var(--text-muted);">Active slides loaded from MySQL</span>
+    </div>
+
+    <div style="position: relative; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-lg);">
+      <div id="hero-slider-wrapper">
+        <div class="loading-container" style="background: #0f172a; height: 350px; color: #ffffff;">
+          <span class="spinner" style="border-top-color: #ffffff;"></span>
+          <span>Loading dynamic hero slides...</span>
+        </div>
+      </div>
+      <div style="position: absolute; bottom: 16px; left: 0; right: 0; display: flex; justify-content: center; gap: 8px;" id="hero-slider-dots"></div>
+      <button class="btn btn-sm btn-icon" id="hero-prev-btn" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: #fff; border: none; padding: 10px 14px; border-radius: 50%; cursor: pointer;">◀</button>
+      <button class="btn btn-sm btn-icon" id="hero-next-btn" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: #fff; border: none; padding: 10px 14px; border-radius: 50%; cursor: pointer;">▶</button>
+    </div>
+  </section>
+
+  <!-- 2. Dynamic Autocomplete Search Section -->
+  <section class="section-container" id="section-autocomplete">
+    <div class="section-header">
+      <h2 class="section-title"><span>🔍</span> Autocomplete Search <span class="module-badge">Module 3</span></h2>
+      <span style="font-size: 0.85rem; color: var(--text-muted);">Backend MySQL SQL LIKE matching (&ge; 2 chars)</span>
+    </div>
+
+    <div style="background: #ffffff; padding: 28px; border-radius: 10px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
+      <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 12px;">
+        Type at least 2 characters to search the dynamic knowledge base (e.g. "flask", "mysql", "token", "vanilla"):
+      </p>
+      <div style="position: relative; max-width: 500px;">
+        <input type="text" id="public-search-input" class="form-control" placeholder="Search technology terms..." autocomplete="off">
+        <span id="public-search-spinner" class="spinner" style="position: absolute; right: 12px; top: 11px; width: 16px; height: 16px; display: none;"></span>
+        <div id="public-search-results" style="display: none; position: absolute; top: 100%; left: 0; right: 0; background: #ffffff; border: 1px solid var(--border-color); border-radius: 6px; box-shadow: var(--shadow-lg); z-index: 100; max-height: 240px; overflow-y: auto; margin-top: 4px;"></div>
+      </div>
+      <div id="public-search-selection" style="margin-top: 14px; font-size: 0.875rem; color: var(--text-main); display: none;"></div>
+    </div>
+  </section>
+
+  <!-- 3. Dynamic Multiple Tabs Section -->
+  <section class="section-container" id="section-tabs">
+    <div class="section-header">
+      <h2 class="section-title"><span>📑</span> Dynamic Multiple Tabs <span class="module-badge">Module 1</span></h2>
+      <span style="font-size: 0.85rem; color: var(--text-muted);">Active tab records from MySQL</span>
+    </div>
+
+    <div style="background: #ffffff; padding: 24px; border-radius: 10px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
+      <div id="public-tabs-nav" style="display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap;"></div>
+      <div id="public-tab-content-panel" style="padding: 20px; background: #f8fafc; border-radius: 8px; border: 1px solid var(--border-color); min-height: 120px;"></div>
+    </div>
+  </section>
+
+  <!-- 4. Dynamic Collapsible Content (Accordion) -->
+  <section class="section-container" id="section-collapsible">
+    <div class="section-header">
+      <h2 class="section-title"><span>📂</span> Collapsible Content <span class="module-badge">Module 4</span></h2>
+      <span style="font-size: 0.85rem; color: var(--text-muted);">Expand / collapse dynamic sections</span>
+    </div>
+
+    <div id="public-accordion-container">
+      <div class="loading-container"><span class="spinner"></span><span>Loading collapsible items...</span></div>
+    </div>
+  </section>
+
+  <!-- 5. Dynamic Tooltips Playground -->
+  <section class="section-container" id="section-tooltips">
+    <div class="section-header">
+      <h2 class="section-title"><span>💬</span> Dynamic Tooltips <span class="module-badge">Module 7</span></h2>
+      <span style="font-size: 0.85rem; color: var(--text-muted);">Hover to activate dynamic positioned guides</span>
+    </div>
+
+    <div style="background: #ffffff; padding: 28px; border-radius: 10px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); display: flex; flex-wrap: wrap; gap: 20px; align-items: center;" id="public-tooltips-container">
+      <div class="loading-container"><span class="spinner"></span><span>Loading tooltips from MySQL...</span></div>
+    </div>
+  </section>
+
+  <!-- 6. Dynamic Modal Popups Trigger -->
+  <section class="section-container" id="section-popups">
+    <div class="section-header">
+      <h2 class="section-title"><span>🪟</span> Dynamic Modal Popups <span class="module-badge">Module 8</span></h2>
+      <span style="font-size: 0.85rem; color: var(--text-muted);">Configured modal popups</span>
+    </div>
+
+    <div style="background: #ffffff; padding: 24px; border-radius: 10px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); display: flex; flex-wrap: wrap; gap: 12px; align-items: center;" id="public-popups-container">
+      <div class="loading-container"><span class="spinner"></span><span>Loading modal triggers...</span></div>
+    </div>
+  </section>
+
+  <!-- 7. Dynamic Image Library Showcase -->
+  <section class="section-container" id="section-images">
+    <div class="section-header">
+      <h2 class="section-title"><span>🖼️</span> Image Library <span class="module-badge">Module 5</span></h2>
+      <span style="font-size: 0.85rem; color: var(--text-muted);">Flask uploaded file assets</span>
+    </div>
+
+    <div id="public-images-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px;">
+      <div class="loading-container" style="grid-column: 1/-1;"><span class="spinner"></span><span>Loading image assets...</span></div>
+    </div>
+  </section>
+
+  <!-- 8. Dynamic Links Directory -->
+  <section class="section-container" id="section-links">
+    <div class="section-header">
+      <h2 class="section-title"><span>🔗</span> Managed Links Directory <span class="module-badge">Module 9</span></h2>
+      <span style="font-size: 0.85rem; color: var(--text-muted);">Safe protocol validated links</span>
+    </div>
+
+    <div id="public-links-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px;">
+      <div class="loading-container" style="grid-column: 1/-1;"><span class="spinner"></span><span>Loading links...</span></div>
+    </div>
+  </section>
+
+  <!-- 9. Dynamic CSS Properties Sandbox -->
+  <section class="section-container" id="section-css">
+    <div class="section-header">
+      <h2 class="section-title"><span>🎨</span> Dynamic CSS Properties <span class="module-badge">Module 10</span></h2>
+      <span style="font-size: 0.85rem; color: var(--text-muted);">Whitelisted CSS attributes injected dynamically from MySQL</span>
+    </div>
+
+    <div class="dynamic-card" style="border: 1px solid var(--border-color); padding: 24px; background: #ffffff; box-shadow: var(--shadow-sm);">
+      <div class="dynamic-panel" style="padding: 16px; border: 1px dashed var(--border-color); margin-bottom: 14px;">
+        <h3 class="dynamic-heading" style="font-size: 1.25rem; margin-bottom: 6px;">Dynamic Style Target Header</h3>
+        <p class="dynamic-text">
+          This panel is targeted by selectors <code>.dynamic-card</code>, <code>.dynamic-panel</code>, <code>.dynamic-heading</code>, and <code>.dynamic-text</code>.
+          Any styling modified by the admin in Module 10 reflects live here!
+        </p>
+      </div>
+      <div class="dynamic-box" style="border: 1px solid var(--border-color); background: #fafbfc;">
+        <span class="dynamic-badge badge badge-active">Dynamic Badge Element</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. Dynamic iFrame Embeds -->
+  <section class="section-container" id="section-iframes">
+    <div class="section-header">
+      <h2 class="section-title"><span>🖥️</span> iFrame Embeds <span class="module-badge">Module 11</span></h2>
+      <span style="font-size: 0.85rem; color: var(--text-muted);">HTTPS verified external and embedded content</span>
+    </div>
+
+    <div id="public-iframes-container">
+      <div class="loading-container"><span class="spinner"></span><span>Loading iframe embeds...</span></div>
+    </div>
+  </section>
+
+  <!-- Public Dynamic Popup Modal -->
+  <div class="modal-overlay" id="public-modal-popup">
+    <div class="modal-container" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="public-popup-title">Popup</h3>
+        <button class="modal-close-btn" onclick="document.getElementById('public-modal-popup').classList.remove('active')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p id="public-popup-body" style="font-size: 0.95rem; color: var(--text-main); line-height: 1.6; white-space: pre-line;"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onclick="document.getElementById('public-modal-popup').classList.remove('active')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="public-footer">
+    <p><strong>Magnus Dynamic Content Management System</strong> &bull; Full-Stack Python Flask & MySQL Enterprise Solution</p>
+    <p style="margin-top: 6px; font-size: 0.775rem;">11 More Menu Modules &bull; Complete CRUD &bull; Parameterized Queries &bull; Scrypt Password Security</p>
+  </footer>
+
+  <script src="/frontend/js/api.js"></script>
+  <script>
+    let publicTabs = [];
+    let publicSlides = [];
+    let publicCurrentSlide = 0;
+    let publicSlideTimer = null;
+    let publicActiveTooltip = null;
+
+    document.addEventListener("DOMContentLoaded", async () => {
+      checkPublicSession();
+      await Promise.all([
+        loadPublicMenus(),
+        loadPublicSlider(),
+        loadPublicTabs(),
+        loadPublicAutocomplete(),
+        loadPublicCollapsible(),
+        loadPublicTooltips(),
+        loadPublicPopups(),
+        loadPublicImages(),
+        loadPublicLinks(),
+        loadPublicCssProperties(),
+        loadPublicIframes()
+      ]);
+    });
+
+    async function checkPublicSession() {
+      let user = apiClient.getUser();
+      if (!user) {
+        try {
+          const res = await apiClient.get("/api/auth/me");
+          if (res.success && res.data) {
+            apiClient.setUser(res.data);
+            user = res.data;
+          }
+        } catch (e) {
+          console.warn("Session check error", e);
+        }
+      }
+
+      const statusEl = document.getElementById("user-status-indicator");
+      const authBtn = document.getElementById("nav-auth-btn");
+
+      if (user) {
+        statusEl.innerHTML = `Signed in as: <strong>${user.name || user.email}</strong>`;
+        authBtn.textContent = "Sign Out 🚪";
+        authBtn.onclick = async () => {
+          try {
+            await apiClient.post("/api/auth/logout");
+          } catch (e) {}
+          apiClient.clearAuth();
+          window.location.href = "/login";
+        };
+      }
+    }
+
+    // Module 2: Menus
+    async function loadPublicMenus() {
+      const res = await apiClient.get("/api/menus", { status: "active", tree: "true" });
+      if (!res.success) return;
+
+      const container = document.getElementById("public-nav-container");
+      const items = res.data || [];
+      if (items.length === 0) return;
+
+      container.innerHTML = items.map(item => {
+        if (item.children && item.children.length > 0) {
+          return `
+            <div class="nav-item">
+              <a href="${item.url}">${item.name} ▾</a>
+              <div class="nav-dropdown">
+                ${item.children.map(child => `<a href="${child.url}">${child.name}</a>`).join("")}
+              </div>
+            </div>
+          `;
+        }
+        return `
+          <div class="nav-item">
+            <a href="${item.url}">${item.name}</a>
+          </div>
+        `;
+      }).join("");
+    }
+
+    // Module 6: Slider
+    async function loadPublicSlider() {
+      const res = await apiClient.get("/api/sliders", { status: "active" });
+      const wrapper = document.getElementById("hero-slider-wrapper");
+      const dots = document.getElementById("hero-slider-dots");
+
+      if (!res.success || !res.data || res.data.length === 0) {
+        wrapper.innerHTML = "<div style='padding: 60px; text-align: center; background: #0f172a; color: #94a3b8;'>No active hero slides.</div>";
+        return;
+      }
+
+      publicSlides = res.data;
+      wrapper.innerHTML = publicSlides.map((slide, idx) => `
+        <div class="public-slide-item" style="display: ${idx === 0 ? 'block' : 'none'}; position: relative; height: 420px; background: #0f172a;">
+          <img src="${slide.image_url}" alt="${slide.alt_text || slide.title}" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.85;" />
+          <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 36px 40px; background: linear-gradient(transparent, rgba(15, 23, 42, 0.9)); color: #fff;">
+            <h1 style="font-size: 1.8rem; color: #ffffff; margin-bottom: 8px;">${slide.title}</h1>
+            <p style="font-size: 1rem; color: #cbd5e1; max-width: 600px;">${slide.description || ''}</p>
+          </div>
+        </div>
+      `).join("");
+
+      dots.innerHTML = publicSlides.map((_, idx) => `
+        <button class="public-slider-dot" style="width: 10px; height: 10px; border-radius: 50%; border: none; background: ${idx === 0 ? 'var(--primary)' : '#94a3b8'}; cursor: pointer;" onclick="goToPublicSlide(${idx})"></button>
+      `).join("");
+
+      document.getElementById("hero-prev-btn").onclick = () => changePublicSlide(-1);
+      document.getElementById("hero-next-btn").onclick = () => changePublicSlide(1);
+
+      clearInterval(publicSlideTimer);
+      if (publicSlides.length > 1) {
+        publicSlideTimer = setInterval(() => changePublicSlide(1), 5000);
+      }
+    }
+
+    function changePublicSlide(dir) {
+      if (publicSlides.length <= 1) return;
+      publicCurrentSlide = (publicCurrentSlide + dir + publicSlides.length) % publicSlides.length;
+      updatePublicSlideDisplay();
+    }
+
+    window.goToPublicSlide = function(idx) {
+      publicCurrentSlide = idx;
+      updatePublicSlideDisplay();
+    };
+
+    function updatePublicSlideDisplay() {
+      const slides = document.querySelectorAll(".public-slide-item");
+      const dots = document.querySelectorAll(".public-slider-dot");
+      slides.forEach((s, idx) => s.style.display = idx === publicCurrentSlide ? "block" : "none");
+      dots.forEach((d, idx) => d.style.background = idx === publicCurrentSlide ? "var(--primary)" : "#94a3b8");
+    }
+
+    // Module 3: Autocomplete
+    function loadPublicAutocomplete() {
+      const input = document.getElementById("public-search-input");
+      const results = document.getElementById("public-search-results");
+      const spinner = document.getElementById("public-search-spinner");
+      const selectionEl = document.getElementById("public-search-selection");
+
+      let debounce;
+      input.addEventListener("input", (e) => {
+        clearTimeout(debounce);
+        const q = e.target.value.trim();
+        if (q.length < 2) {
+          results.style.display = "none";
+          spinner.style.display = "none";
+          return;
+        }
+
+        spinner.style.display = "block";
+        debounce = setTimeout(async () => {
+          const res = await apiClient.get("/api/autocomplete/search", { q });
+          spinner.style.display = "none";
+
+          if (!res.success || !res.data || res.data.length === 0) {
+            results.innerHTML = "<div style='padding: 10px; font-size: 0.85rem; color: var(--text-muted);'>No results found in MySQL</div>";
+            results.style.display = "block";
+            return;
+          }
+
+          results.innerHTML = res.data.map(item => `
+            <div class="public-search-item" style="padding: 10px 14px; cursor: pointer; border-bottom: 1px solid var(--border-color);" data-val="${item.value}" data-lbl="${item.label}">
+              <div style="font-weight: 600; font-size: 0.875rem;">${item.label}</div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">${item.description || item.value}</div>
+            </div>
+          `).join("");
+
+          results.querySelectorAll(".public-search-item").forEach(el => {
+            el.onclick = () => {
+              input.value = el.getAttribute("data-lbl");
+              results.style.display = "none";
+              selectionEl.style.display = "block";
+              selectionEl.innerHTML = `Selected Keyword: <span class="badge badge-active">${el.getAttribute('data-lbl')}</span> &bull; Token: <code>${el.getAttribute('data-val')}</code>`;
+            };
+          });
+
+          results.style.display = "block";
+        }, 200);
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!input.contains(e.target) && !results.contains(e.target)) {
+          results.style.display = "none";
+        }
+      });
+    }
+
+    // Module 1: Tabs
+    async function loadPublicTabs() {
+      const res = await apiClient.get("/api/tabs", { status: "active" });
+      const nav = document.getElementById("public-tabs-nav");
+      const panel = document.getElementById("public-tab-content-panel");
+
+      if (!res.success || !res.data || res.data.length === 0) {
+        panel.innerHTML = "<p>No active tabs configured.</p>";
+        return;
+      }
+
+      publicTabs = res.data;
+      nav.innerHTML = publicTabs.map((t, idx) => `
+        <button class="btn btn-sm ${idx === 0 ? 'btn-primary' : 'btn-outline'} public-tab-btn" data-id="${t.id}" onclick="switchPublicTab(${t.id})">
+          ${t.title}
+        </button>
+      `).join("");
+
+      panel.innerHTML = `
+        <h3 style="font-size: 1.15rem; margin-bottom: 8px;">${publicTabs[0].title}</h3>
+        <p style="white-space: pre-line; line-height: 1.6;">${publicTabs[0].content}</p>
+      `;
+    }
+
+    window.switchPublicTab = function(id) {
+      const tab = publicTabs.find(t => t.id === id);
+      if (!tab) return;
+
+      document.querySelectorAll(".public-tab-btn").forEach(btn => {
+        btn.className = parseInt(btn.getAttribute("data-id")) === id ? "btn btn-sm btn-primary public-tab-btn" : "btn btn-sm btn-outline public-tab-btn";
+      });
+
+      document.getElementById("public-tab-content-panel").innerHTML = `
+        <h3 style="font-size: 1.15rem; margin-bottom: 8px;">${tab.title}</h3>
+        <p style="white-space: pre-line; line-height: 1.6;">${tab.content}</p>
+      `;
+    };
+
+    // Module 4: Collapsible
+    async function loadPublicCollapsible() {
+      const res = await apiClient.get("/api/collapsible", { status: "active" });
+      const container = document.getElementById("public-accordion-container");
+      if (!res.success || !res.data || res.data.length === 0) {
+        container.innerHTML = "<p>No active collapsible records.</p>";
+        return;
+      }
+
+      container.innerHTML = res.data.map(item => `
+        <div style="border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 10px; overflow: hidden; background: #ffffff;">
+          <div style="padding: 16px 20px; background: #f8fafc; cursor: pointer; display: flex; align-items: center; justify-content: space-between; user-select: none;" onclick="togglePublicAcc(this)">
+            <span style="font-weight: 700; font-size: 1rem; color: var(--text-main);">${item.title}</span>
+            <span class="acc-icon" style="font-size: 0.9rem; color: var(--text-muted);">➕</span>
+          </div>
+          <div style="display: none; padding: 18px 20px; font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; border-top: 1px solid var(--border-color);">
+            ${item.content}
+          </div>
+        </div>
+      `).join("");
+    }
+
+    window.togglePublicAcc = function(el) {
+      const body = el.nextElementSibling;
+      const icon = el.querySelector(".acc-icon");
+      if (body.style.display === "none" || !body.style.display) {
+        body.style.display = "block";
+        icon.textContent = "➖";
+      } else {
+        body.style.display = "none";
+        icon.textContent = "➕";
+      }
+    };
+
+    // Module 7: Tooltips
+    async function loadPublicTooltips() {
+      const res = await apiClient.get("/api/tooltips", { status: "active" });
+      const container = document.getElementById("public-tooltips-container");
+      if (!res.success || !res.data || res.data.length === 0) {
+        container.innerHTML = "<p>No active tooltips.</p>";
+        return;
+      }
+
+      container.innerHTML = res.data.map(tip => `
+        <div style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; background: #f8fafc; border: 1px solid var(--border-color); border-radius: 6px;">
+          <span style="font-size: 0.85rem; font-weight: 600;">${tip.element_name}</span>
+          <button class="btn btn-primary btn-sm btn-icon public-tip-btn" 
+                  data-content="${tip.content}" 
+                  data-pos="${tip.position}"
+                  style="width: 22px; height: 22px; border-radius: 50%; padding: 0; font-size: 0.75rem; font-weight: bold;">
+            ?
+          </button>
+        </div>
+      `).join("");
+
+      container.querySelectorAll(".public-tip-btn").forEach(btn => {
+        btn.onmouseenter = () => showPublicTooltip(btn, btn.getAttribute("data-content"), btn.getAttribute("data-pos"));
+        btn.onmouseleave = () => hidePublicTooltip();
+      });
+    }
+
+    function showPublicTooltip(target, text, pos = "top") {
+      hidePublicTooltip();
+      const tip = document.createElement("div");
+      tip.className = `custom-tooltip-box pos-${pos}`;
+      tip.textContent = text;
+      document.body.appendChild(tip);
+      publicActiveTooltip = tip;
+
+      const rect = target.getBoundingClientRect();
+      const tipRect = tip.getBoundingClientRect();
+      const scrollY = window.scrollY || window.pageYOffset;
+      const scrollX = window.scrollX || window.pageXOffset;
+
+      let top, left;
+      switch (pos) {
+        case "bottom": top = rect.bottom + scrollY + 8; left = rect.left + scrollX + (rect.width / 2) - (tipRect.width / 2); break;
+        case "left": top = rect.top + scrollY + (rect.height / 2) - (tipRect.height / 2); left = rect.left + scrollX - tipRect.width - 8; break;
+        case "right": top = rect.top + scrollY + (rect.height / 2) - (tipRect.height / 2); left = rect.right + scrollX + 8; break;
+        case "top":
+        default: top = rect.top + scrollY - tipRect.height - 8; left = rect.left + scrollX + (rect.width / 2) - (tipRect.width / 2); break;
+      }
+      tip.style.top = `${top}px`;
+      tip.style.left = `${left}px`;
+    }
+
+    function hidePublicTooltip() {
+      if (publicActiveTooltip) {
+        publicActiveTooltip.remove();
+        publicActiveTooltip = null;
+      }
+    }
+
+    // Module 8: Popups
+    async function loadPublicPopups() {
+      const res = await apiClient.get("/api/popups", { status: "active" });
+      const container = document.getElementById("public-popups-container");
+      if (!res.success || !res.data || res.data.length === 0) {
+        container.innerHTML = "<p>No active popups.</p>";
+        return;
+      }
+
+      container.innerHTML = res.data.map(popup => `
+        <button class="btn btn-outline btn-sm" onclick="triggerPublicPopup('${popup.title}', '${escape(popup.content)}')">
+          📢 ${popup.title} (${popup.trigger_type})
+        </button>
+      `).join("");
+
+      // Check if any popup is configured for page_load
+      const pageLoadPopup = res.data.find(p => p.trigger_type === "page_load");
+      if (pageLoadPopup && !sessionStorage.getItem("magnus_popup_shown")) {
+        sessionStorage.setItem("magnus_popup_shown", "true");
+        setTimeout(() => triggerPublicPopup(pageLoadPopup.title, escape(pageLoadPopup.content)), 1000);
+      }
+    }
+
+    window.triggerPublicPopup = function(title, bodyEscaped) {
+      document.getElementById("public-popup-title").textContent = title;
+      document.getElementById("public-popup-body").textContent = unescape(bodyEscaped);
+      document.getElementById("public-modal-popup").classList.add("active");
+    };
+
+    // Module 5: Images
+    async function loadPublicImages() {
+      const res = await apiClient.get("/api/images", { status: "active" });
+      const grid = document.getElementById("public-images-grid");
+      if (!res.success || !res.data || res.data.length === 0) {
+        grid.innerHTML = "<p>No images available.</p>";
+        return;
+      }
+
+      grid.innerHTML = res.data.map(img => `
+        <div style="background: #ffffff; border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; box-shadow: var(--shadow-sm);">
+          <img src="${img.image_url}" alt="${img.alt_text || img.title}" style="width: 100%; height: 160px; object-fit: cover;" />
+          <div style="padding: 14px;">
+            <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 4px;">${img.title}</div>
+            <div style="font-size: 0.8rem; color: var(--text-muted);">${img.category || 'General'}</div>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    // Module 9: Links
+    async function loadPublicLinks() {
+      const res = await apiClient.get("/api/links", { status: "active" });
+      const grid = document.getElementById("public-links-grid");
+      if (!res.success || !res.data || res.data.length === 0) {
+        grid.innerHTML = "<p>No links available.</p>";
+        return;
+      }
+
+      grid.innerHTML = res.data.map(link => `
+        <div style="background: #ffffff; border: 1px solid var(--border-color); border-radius: 8px; padding: 16px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: var(--shadow-sm);">
+          <div>
+            <div style="font-weight: 700; font-size: 1rem; margin-bottom: 4px;">${link.title}</div>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">${link.description || link.url}</p>
+          </div>
+          <a href="${link.url}" target="${link.target}" rel="noopener noreferrer" class="btn btn-outline btn-sm" style="align-self: flex-start;">
+            Visit Link ${link.target === '_blank' ? '↗' : '→'}
+          </a>
+        </div>
+      `).join("");
+    }
+
+    // Module 10: CSS Properties
+    async function loadPublicCssProperties() {
+      const res = await apiClient.get("/api/css-properties", { status: "active" });
+      if (!res.success || !res.data) return;
+
+      const styleEl = document.createElement("style");
+      styleEl.id = "public-injected-styles";
+      styleEl.textContent = res.data.map(p => `${p.selector} { ${p.property_name}: ${p.property_value} !important; }`).join("\n");
+      document.head.appendChild(styleEl);
+    }
+
+    // Module 11: iFrames
+    async function loadPublicIframes() {
+      const res = await apiClient.get("/api/iframes", { status: "active" });
+      const container = document.getElementById("public-iframes-container");
+      if (!res.success || !res.data || res.data.length === 0) {
+        container.innerHTML = "<p>No active iframe embeds.</p>";
+        return;
+      }
+
+      container.innerHTML = res.data.map(f => `
+        <div style="background: #ffffff; border: 1px solid var(--border-color); border-radius: 10px; overflow: hidden; margin-bottom: 24px; box-shadow: var(--shadow-sm);">
+          <div style="padding: 12px 20px; background: #f8fafc; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-weight: 700; font-size: 0.95rem;">${f.title}</span>
+            <code style="font-size: 0.8rem; color: var(--text-muted);">${f.url}</code>
+          </div>
+          <iframe src="${f.url}" width="${f.width || '100%'}" height="${f.height || '400px'}" ${f.allow_fullscreen ? 'allowfullscreen' : ''} style="border: none; display: block;" loading="lazy" sandbox="allow-scripts allow-same-origin allow-popups allow-forms"></iframe>
+        </div>
+      `).join("");
+    }
+  </script>
+</body>
+</html>

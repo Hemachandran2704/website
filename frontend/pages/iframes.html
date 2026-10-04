@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>iFrame Embeds - Magnus Dynamic CMS</title>
+  <link rel="stylesheet" href="/frontend/css/style.css">
+  <link rel="stylesheet" href="/frontend/css/dashboard.css">
+  <link rel="stylesheet" href="/frontend/css/tables.css">
+  <link rel="stylesheet" href="/frontend/css/forms.css">
+</head>
+<body>
+  <div class="dashboard-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-brand-icon">M</div>
+        <div class="sidebar-brand-name">Magnus CMS</div>
+        <span class="sidebar-brand-badge" id="sidebar-brand-role">Admin</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <span class="sidebar-section-title">Navigation</span>
+        <a href="/frontend/dashboard.html" class="nav-link"><span class="nav-icon">🏠</span> Home</a>
+        <a href="#" class="nav-link" onclick="alert('Employee section remains unchanged as part of the core Magnus application.'); return false;"><span class="nav-icon">👥</span> Employee</a>
+        <a href="#" class="nav-link" onclick="alert('Settings section remains unchanged as part of the core Magnus application.'); return false;"><span class="nav-icon">⚙️</span> Settings</a>
+
+        <span class="sidebar-section-title">More</span>
+        <div class="nav-group open" id="nav-more-group">
+          <div class="nav-link nav-group-header">
+            <span style="display:flex; align-items:center; gap:12px;"><span class="nav-icon">📁</span> More</span>
+            <span class="nav-chevron">▶</span>
+          </div>
+          <div class="nav-submenu">
+            <a href="/frontend/pages/multiple-tabs.html" class="nav-link">📑 Multiple Tabs</a>
+            <a href="/frontend/pages/menu.html" class="nav-link">🗂️ Menu</a>
+            <a href="/frontend/pages/autocomplete.html" class="nav-link">🔍 Autocomplete</a>
+            <a href="/frontend/pages/collapsible.html" class="nav-link">📂 Collapsible Content</a>
+            <a href="/frontend/pages/images.html" class="nav-link">🖼️ Images</a>
+            <a href="/frontend/pages/slider.html" class="nav-link">🎞️ Slider</a>
+            <a href="/frontend/pages/tooltips.html" class="nav-link">💬 Tooltips</a>
+            <a href="/frontend/pages/popups.html" class="nav-link">🪟 Popups</a>
+            <a href="/frontend/pages/links.html" class="nav-link">🔗 Links</a>
+            <a href="/frontend/pages/css-properties.html" class="nav-link">🎨 CSS Properties</a>
+            <a href="/frontend/pages/iframes.html" class="nav-link active">🖥️ iFrames</a>
+          </div>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile-badge">
+          <div class="user-avatar" id="sidebar-user-avatar">A</div>
+          <div class="user-info">
+            <span class="user-name" id="sidebar-user-name">Administrator</span>
+            <span class="user-role-label" id="sidebar-user-role">ADMIN</span>
+          </div>
+        </div>
+        <button class="btn-sidebar-logout" id="sidebar-logout-btn">
+          <span>🚪</span> Sign Out
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <header class="topbar">
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <button class="btn-mobile-toggle" id="mobile-menu-toggle">☰</button>
+          <div class="page-title-box">
+            <h1 class="page-title">iFrame Embeds Management</h1>
+            <div class="breadcrumbs">
+              <a href="/frontend/dashboard.html">Dashboard</a> <span>/</span> <span>iFrames</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="topbar-actions">
+          <button class="btn btn-primary" id="btn-add-new">
+            <span>➕</span> Add iFrame
+          </button>
+        </div>
+      </header>
+
+      <div class="content-body">
+        <!-- Live iFrame Preview Sandbox -->
+        <div class="preview-container">
+          <div class="preview-header">
+            <span class="preview-title">Live iFrame Sandbox Preview</span>
+            <span class="badge badge-active">Secure HTTPS Framing</span>
+          </div>
+          <div id="preview-iframe-container"></div>
+        </div>
+
+        <!-- Table Management Card -->
+        <div class="table-card">
+          <div class="table-controls">
+            <div class="table-search-box">
+              <span class="search-icon">🔍</span>
+              <input type="text" id="table-search" class="search-input" placeholder="Search iframe title or URL...">
+            </div>
+
+            <div class="table-filters">
+              <label for="status-filter" style="font-size: 0.85rem; font-weight: 500;">Filter Status:</label>
+              <select id="status-filter" class="filter-select">
+                <option value="all">All iFrames</option>
+                <option value="active" selected>Active Only</option>
+                <option value="inactive">Inactive Only</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th style="width: 70px;">ID</th>
+                  <th>Title & Dimensions</th>
+                  <th>Embed URL</th>
+                  <th style="width: 120px;">Fullscreen</th>
+                  <th style="width: 110px;">Status</th>
+                  <th style="width: 140px;">Created Date</th>
+                  <th style="width: 190px;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="table-body">
+                <!-- Dynamically Rendered -->
+              </tbody>
+            </table>
+          </div>
+
+          <div class="table-footer">
+            <span id="table-record-count">Loading records...</span>
+            <span style="font-size: 0.75rem; color: var(--text-light);">MySQL Database: magnus_cms.iframes</span>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Create / Edit Modal -->
+  <div class="modal-overlay" id="crud-modal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">Create iFrame Embed</h3>
+        <button class="modal-close-btn" id="modal-close-btn">&times;</button>
+      </div>
+      <form id="item-form">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="iframe-title">Title / Name <span class="required">*</span></label>
+            <input type="text" id="iframe-title" class="form-control" placeholder="e.g. OpenStreetMap Embed" maxlength="200" required>
+            <span class="form-error" id="iframe-title-error"></span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="iframe-url">Embed URL <span class="required">*</span></label>
+            <input type="text" id="iframe-url" class="form-control" placeholder="https://www.openstreetmap.org/export/embed.html..." maxlength="500" required>
+            <span class="form-hint">Must begin with https:// or be a safe local path</span>
+            <span class="form-error" id="iframe-url-error"></span>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="iframe-width">Width</label>
+              <input type="text" id="iframe-width" class="form-control" placeholder="100% or 600px" value="100%">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="iframe-height">Height</label>
+              <input type="text" id="iframe-height" class="form-control" placeholder="400px" value="400px">
+            </div>
+          </div>
+
+          <div class="form-row" style="align-items: center;">
+            <div class="form-group" style="margin-bottom: 0;">
+              <label style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer;">
+                <input type="checkbox" id="iframe-fullscreen" checked style="width: 16px; height: 16px;">
+                Allow Fullscreen Mode
+              </label>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label" for="iframe-status">Status</label>
+              <select id="iframe-status" class="form-control">
+                <option value="active">Active (Visible)</option>
+                <option value="inactive">Inactive (Hidden)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" id="modal-cancel-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="modal-submit-btn">Save iFrame</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- View Details Modal -->
+  <div class="modal-overlay" id="view-modal">
+    <div class="modal-container" style="max-width: 650px;">
+      <div class="modal-header">
+        <h3 class="modal-title">iFrame Embed Details</h3>
+        <button class="modal-close-btn" id="view-modal-close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+          <h2 id="view-iframe-title" style="font-size: 1.25rem;"></h2>
+          <span id="view-iframe-id" style="font-weight: 700; color: var(--text-muted);"></span>
+        </div>
+        <div style="margin-bottom: 12px;"><strong>Source URL:</strong> <code id="view-iframe-url"></code></div>
+        <div style="display: flex; gap: 16px; font-size: 0.85rem; margin-bottom: 14px;">
+          <div><strong>Dimensions:</strong> <span id="view-iframe-dims"></span></div>
+          <div><strong>Fullscreen:</strong> <span id="view-iframe-fullscreen"></span></div>
+          <div><strong>Status:</strong> <span id="view-iframe-status"></span></div>
+        </div>
+        <div style="margin-bottom: 14px; border: 1px solid var(--border-color); border-radius: 6px; overflow: hidden;">
+          <iframe id="view-iframe-preview" src="" style="display: block; border: none;" sandbox="allow-scripts allow-same-origin allow-popups allow-forms"></iframe>
+        </div>
+        <div style="font-size: 0.775rem; color: var(--text-muted); border-top: 1px solid var(--border-color); padding-top: 10px;">
+          <span>Created: <strong id="view-iframe-created"></strong></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/frontend/js/api.js"></script>
+  <script src="/frontend/js/auth.js"></script>
+  <script src="/frontend/js/iframes.js"></script>
+</body>
+</html>

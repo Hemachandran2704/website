@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Media Manager - Magnus Dynamic CMS</title>
+  <link rel="stylesheet" href="/frontend/css/style.css">
+  <link rel="stylesheet" href="/frontend/css/dashboard.css">
+  <link rel="stylesheet" href="/frontend/css/tables.css">
+  <link rel="stylesheet" href="/frontend/css/forms.css">
+</head>
+<body>
+  <div class="dashboard-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-brand-icon">M</div>
+        <div class="sidebar-brand-name">Magnus CMS</div>
+        <span class="sidebar-brand-badge">Admin</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <span class="sidebar-section-title">Navigation</span>
+        <a href="/frontend/dashboard.html" class="nav-link"><span class="nav-icon">🏠</span> Home</a>
+        <a href="#" class="nav-link" onclick="alert('Employee section remains unchanged as part of the core Magnus application.'); return false;"><span class="nav-icon">👥</span> Employee</a>
+        <a href="#" class="nav-link" onclick="alert('Settings section remains unchanged as part of the core Magnus application.'); return false;"><span class="nav-icon">⚙️</span> Settings</a>
+
+        <span class="sidebar-section-title">More</span>
+        <div class="nav-group open" id="nav-more-group">
+          <div class="nav-link nav-group-header">
+            <span style="display:flex; align-items:center; gap:12px;"><span class="nav-icon">📁</span> More</span>
+            <span class="nav-chevron">▶</span>
+          </div>
+          <div class="nav-submenu">
+            <a href="/frontend/pages/multiple-tabs.html" class="nav-link">📑 Multiple Tabs</a>
+            <a href="/frontend/pages/menu.html" class="nav-link">🗂️ Menu</a>
+            <a href="/frontend/pages/autocomplete.html" class="nav-link">🔍 Autocomplete</a>
+            <a href="/frontend/pages/collapsible.html" class="nav-link">📂 Collapsible Content</a>
+            <a href="/frontend/pages/images.html" class="nav-link">🖼️ Images</a>
+            <a href="/frontend/pages/slider.html" class="nav-link">🎞️ Slider</a>
+            <a href="/frontend/pages/tooltips.html" class="nav-link">💬 Tooltips</a>
+            <a href="/frontend/pages/popups.html" class="nav-link">🪟 Popups</a>
+            <a href="/frontend/pages/links.html" class="nav-link">🔗 Links</a>
+            <a href="/frontend/pages/css-properties.html" class="nav-link">🎨 CSS Properties</a>
+            <a href="/frontend/pages/iframes.html" class="nav-link">🖥️ iFrames</a>
+            <a href="/frontend/pages/content-manager.html" class="nav-link">📝 Content Manager</a>
+            <a href="/frontend/pages/media-manager.html" class="nav-link active">📁 Media Manager</a>
+            <a href="/frontend/pages/form-manager.html" class="nav-link">📋 Form Manager</a>
+            <a href="/frontend/pages/notification-manager.html" class="nav-link">🔔 Notification Manager</a>
+            <a href="/frontend/pages/activity-logs.html" class="nav-link">📜 Activity Logs</a>
+            <a href="/frontend/pages/reports.html" class="nav-link">📊 Reports</a>
+          </div>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile-badge">
+          <div class="user-avatar" id="sidebar-user-avatar">A</div>
+          <div class="user-info">
+            <span class="user-name" id="sidebar-user-name">Administrator</span>
+            <span class="user-role-label" id="sidebar-user-role">ADMIN</span>
+          </div>
+        </div>
+        <button class="btn-sidebar-logout" id="sidebar-logout-btn">
+          <span>🚪</span> Sign Out
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <header class="topbar">
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <button class="btn-mobile-toggle" id="mobile-menu-toggle">☰</button>
+          <div class="page-title-box">
+            <h1 class="page-title">Media Manager</h1>
+            <div class="breadcrumbs">
+              <a href="/frontend/dashboard.html">Home</a> <span>/</span> <a href="#">More</a> <span>/</span> <span>Media Manager</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="topbar-actions">
+          <button class="btn btn-primary" id="btn-add-new">
+            <span>📤</span> Upload Media Asset
+          </button>
+        </div>
+      </header>
+
+      <div class="content-body">
+        <!-- Table Management Card -->
+        <div class="table-card">
+          <div class="table-controls">
+            <div class="table-search-box">
+              <span class="search-icon">🔍</span>
+              <input type="text" id="table-search" class="search-input" placeholder="Search file name, category, description...">
+            </div>
+
+            <div class="table-filters">
+              <label for="category-filter" style="font-size: 0.85rem; font-weight: 500;">Category:</label>
+              <select id="category-filter" class="filter-select">
+                <option value="all">All Categories</option>
+                <option value="Architecture">Architecture</option>
+                <option value="Marketing">Marketing</option>
+                <option value="Compliance">Compliance</option>
+                <option value="General">General</option>
+              </select>
+
+              <label for="status-filter" style="font-size: 0.85rem; font-weight: 500; margin-left: 8px;">Status:</label>
+              <select id="status-filter" class="filter-select">
+                <option value="all">All Status</option>
+                <option value="active" selected>Active Only</option>
+                <option value="inactive">Inactive Only</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th style="width: 70px;">ID</th>
+                  <th style="width: 80px;">Thumbnail</th>
+                  <th>File Name & Description</th>
+                  <th style="width: 110px;">File Type</th>
+                  <th style="width: 120px;">Category</th>
+                  <th style="width: 100px;">Status</th>
+                  <th style="width: 130px;">Uploaded Date</th>
+                  <th style="width: 190px; text-align: center;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="table-body">
+                <tr>
+                  <td colspan="8" class="loading-container">
+                    <span class="spinner"></span>
+                    <span>Loading media assets...</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="table-pagination">
+            <span class="table-record-count" id="table-record-count">Showing 0 records</span>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Upload / Edit Media Modal -->
+  <div class="modal-overlay" id="crud-modal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">Upload Media Asset</h3>
+        <button class="modal-close-btn" id="modal-close-btn">&times;</button>
+      </div>
+
+      <form id="item-form">
+        <div class="modal-body">
+          <div class="form-error" id="form-error" style="display: none;"></div>
+
+          <div class="form-group" id="file-input-group">
+            <label class="form-label" for="media-file">Choose File <span class="required" id="file-required-mark">*</span></label>
+            <input type="file" id="media-file" class="form-control" accept=".jpg,.jpeg,.png,.webp,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv,.mp4,.webm,.mov">
+            <small style="color: var(--text-muted);">Images, documents, and videos (Max 5MB)</small>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="media-name">Display File Name</label>
+            <input type="text" id="media-name" class="form-control" placeholder="e.g. system_architecture_diagram.png">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="media-category">Category</label>
+            <input type="text" id="media-category" class="form-control" placeholder="e.g. Architecture, Marketing, Compliance, General" list="media-cat-list">
+            <datalist id="media-cat-list">
+              <option value="Architecture">
+              <option value="Marketing">
+              <option value="Compliance">
+              <option value="General">
+            </datalist>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="media-desc">Description</label>
+            <input type="text" id="media-desc" class="form-control" placeholder="Context or usage details for this file">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="media-status">Status <span class="required">*</span></label>
+            <select id="media-status" class="form-control">
+              <option value="active" selected>Active</option>
+              <option value="inactive">Inactive</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" id="modal-cancel-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="modal-submit-btn">Save Media</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- View Media Details Modal -->
+  <div class="modal-overlay" id="view-modal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title" id="view-modal-title">Media Details</h3>
+        <button class="modal-close-btn" id="view-modal-close-btn">&times;</button>
+      </div>
+      <div class="modal-body" id="view-modal-body"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onclick="closeViewModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/frontend/js/api.js"></script>
+  <script src="/frontend/js/auth.js"></script>
+  <script src="/frontend/js/media-manager.js"></script>
+</body>
+</html>
